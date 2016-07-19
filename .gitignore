@@ -1,0 +1,5 @@
+node_modules/
+npm-debug.log
+public/js/*
+public/css/leaflet.css
+node_modules/*
