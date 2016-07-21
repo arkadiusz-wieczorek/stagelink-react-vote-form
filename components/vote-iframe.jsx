@@ -157,23 +157,15 @@ class VoteFrame extends React.Component {
             <div>
                 {(this.state.voted === false)
                     ?
-                    <div className="container">
-                        <h2>Some band, come to my town!</h2>
-                        <div className={classNames('voting-section', 'blur')}>
-                            <div className="overlay">
-                                <div className="access visible-xs">
-                                    <i className="icon-lock" />
-                                    <p> Request a show to access exclusive content and early bird tickets.</p>
-                                </div>
-                            </div>
-
-                            <nav id="steps-nav" className="steps-nav">
-                                <div className="steps-nav__step">
-                                    <VoteForm/>
-                                </div>
-                            </nav>
-                        </div>
+                    <div>
+                        <button onClick={this.requestAboutAddress}>set address from request to googleapis</button>
+                        <input
+                            type="text"
+                            value={this.state.address}
+                            onChange={this.handleChange('address')}/>
+                        <button onClick={this.handleClick}>request to fb</button>
                     </div>
+
                     :
                     <div>
                         <button onClick={this.unvote}>Unvote</button>
@@ -193,25 +185,6 @@ ReactDOM.render(
     <VoteFrame />,
     document.querySelector('.vote-iframe')
 )
-
-// <div>
-//     <button onClick={this.requestAboutAddress}>
-//         set address from request to googleapis
-//     </button>
-//     <input
-//         type="text"
-//         value={this.state.address}
-//         onChange={this.handleChange('address')}
-//         />
-//     <button onClick={this.handleClick}>
-//         request to fb
-//     </button>
-// </div>
-
-
-
-
-
 
 // OK 1. send request from to login
 //socialId: 141443656045564
@@ -234,14 +207,3 @@ ReactDOM.render(
 // "currency"=>"GBP",
 // "submit"=>"facebook",
 // "signup_variant"=>"facebook"}
-
-// <input
-//   type="number"
-//   value={this.state.lat}
-//   onChange={this.handleChange('lat')}
-// />
-// <input
-//   type="number"
-//   value={this.state.lng}
-//   onChange={this.handleChange('lng')}
-// />
