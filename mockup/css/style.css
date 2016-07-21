@@ -74,7 +74,7 @@ h1{
 	padding-top: 4rem;
 }
 
-.section__vote-information{
+.fragment__vote-information{
 	background-color: #2e2d30;
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
@@ -82,19 +82,19 @@ h1{
 	padding: 1rem 2rem 0rem 2rem;
 }
 
-.section__vote-information h2{
+.fragment__vote-information h2{
 	font-weight: 700;
 	font-size: 1.875rem;
 	line-height: 3.75rem;
 	text-align: center;
 }
 
-.section__vote-information p{
+.fragment__vote-information p{
 	text-align: center;
 	font-size: 1.1rem;
 }
 
-.section__vote-information .icon-lock{
+.fragment__vote-information .icon-lock{
 	position: relative;
 	display: block;
 	background-image: url("https://stagelink.s3.amazonaws.com/assets/icons/icon-lock-c40fccae17af875aa059399578c2b92e.png");
@@ -108,21 +108,21 @@ h1{
 }
 
 
-.section__vote-details{
+.fragment__vote-details{
 	background-color: #F39200;
 	padding: 1.2rem;
 	border-bottom: 2px solid #fff;
 	padding-bottom: 2rem;
 }
 
-.section__vote-details h2{
+.fragment__vote-details h2{
 	font-size: 1.375rem;
 	text-align: center;
 	font-weight: 600;
 	line-height: 3rem;
 }
 
-.section__vote-details input.input-field[type="text"]{
+.fragment__vote-details input.input-field[type="text"]{
 	position: relative;
 	display: block;
 	height: 3.5rem;
@@ -140,7 +140,7 @@ h1{
 }
 
 
-.section__vote-details .selects-wrapper, .section__vote-buttons .buttons-wrapper{
+.fragment__vote-details .selects-wrapper, .fragment__vote-buttons .buttons-wrapper{
 	width: 13.5rem;
 	margin: 0 auto;
 	max-width: none;
@@ -150,7 +150,7 @@ h1{
 }
 
 
-.section__vote-details .select-input{
+.fragment__vote-details .select-input{
 	/*display: inline-block;*/
 	flex-grow: 1;
 	height: 3.5rem;
@@ -168,14 +168,14 @@ h1{
 	overflow: visible;
 }
 
-.section__vote-details .select-input:first-child{
+.fragment__vote-details .select-input:first-child{
 	margin-right: 0.4rem;
 }
-.section__vote-buttons .buttons-wrapper{
+.fragment__vote-buttons .buttons-wrapper{
 	width: 100%;
 }
 
-.section__vote-buttons .button {
+.fragment__vote-buttons .button {
 	height: 4.5rem;
 	/*display:inline-block;*/
 	font-size: 1.25rem;
@@ -227,12 +227,12 @@ h1{
 
 }
 
-.section__vote-about{
+.fragment__vote-about{
 	padding-top: 1rem;
 	/*background-color: #fff;*/
 }
 
-.section__vote-about p{
+.fragment__vote-about p{
 	font-size: 1rem;
 	color: rgb(156, 158, 159);
 	line-height: 2rem;
