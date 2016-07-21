@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import reqwest from 'reqwest';
 import merge from 'merge-object';
 import Lmap from './lmap.jsx';
+import VoteForm from './form.jsx';
+import classNames from 'classnames';
 
 class VoteFrame extends React.Component {
     constructor(props) {
@@ -155,18 +157,22 @@ class VoteFrame extends React.Component {
             <div>
                 {(this.state.voted === false)
                     ?
-                    <div>
-                        <button onClick={this.requestAboutAddress}>
-                            set address from request to googleapis
-                        </button>
-                        <input
-                            type="text"
-                            value={this.state.address}
-                            onChange={this.handleChange('address')}
-                            />
-                        <button onClick={this.handleClick}>
-                            request to fb
-                        </button>
+                    <div className="container">
+                        <h2>Some band, come to my town!</h2>
+                        <div className={classNames('voting-section', 'blur')}>
+                            <div className="overlay">
+                                <div className="access visible-xs">
+                                    <i className="icon-lock" />
+                                    <p> Request a show to access exclusive content and early bird tickets.</p>
+                                </div>
+                            </div>
+
+                            <nav id="steps-nav" className="steps-nav">
+                                <div className="steps-nav__step">
+                                    <VoteForm/>
+                                </div>
+                            </nav>
+                        </div>
                     </div>
                     :
                     <div>
@@ -185,7 +191,7 @@ export default VoteFrame;
 
 ReactDOM.render(
     <VoteFrame />,
-    document.querySelector('.container')
+    document.querySelector('.vote-iframe')
 )
 
 // <div>
