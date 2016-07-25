@@ -4,17 +4,13 @@ import classNames from 'classnames';
 class VoteHeader extends React.Component{
   constructor(props){
     super(props)
-    this.state = {
-
-    }
   }
-
 
   render () {
     return (
-        <div>
-            header
-        </div>
+        <header>
+            <h1>{this.props.artist_name}, come to my town!</h1>
+        </header>
     )
   }
 }

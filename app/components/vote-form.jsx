@@ -78,22 +78,56 @@ class VoteForm extends React.Component{
   }
 
 
-  
+
 
   // to do change state to props
   render () {
     return (
-        <form id="new_demand" className="form-inline form-theme2">
-            <input name="authenticity_token"
-                value={this.state.authenticity_token}
-                type="hidden"/>
-            <input name="artist_id"
-                value={this.state.artist_id}
-                type="hidden"/>
-            <input name="referrer"
-                value={this.state.referrer}
-                type="hidden"/>
-        </form>
+        <div className="wrapper">
+            <div className="overlay-map">
+                <div className="vote-frame">
+                    <div className="fragment__vote-information">
+                        <h2>Vote now!</h2>
+                        <p>Request a show to access exclusive content and early bird tickets.</p>
+                        <i className="icon-lock"></i>
+                    </div>
+                    <form>
+                        <input name="authenticity_token"
+                            value={this.state.authenticity_token}
+                            type="hidden"/>
+                        <input name="artist_id"
+                            value={this.state.artist_id}
+                            type="hidden"/>
+                        <input name="referrer"
+                            value={this.state.referrer}
+                            type="hidden"/>
+
+                        <div className="fragment__vote-details">
+                            <h2>Please come to</h2>
+                            <input className="input-field" placeholder="Type in your town" type="text" />
+
+                            <h2>I'd pay up to</h2>
+                            <div className="selects-wrapper">
+                                <select className="select-input" name="price"></select>
+                                <select className="select-input" name="currency"></select>
+                            </div>
+                        </div>
+                        <div className="fragment__vote-buttons">
+                            <div className="buttons-wrapper">
+                                <button className={classNames('button', 'button__facebook')}>Request with Facebook</button>
+                                <button className={classNames('button', 'button__gplus')}>Google</button>
+                                <button className={classNames('button', 'button__instagram')}>Instagram</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div className="fragment__vote-about">
+                    <p>
+                        Your vote does not commit you to buy a ticket
+                    </p>
+                </div>
+            </div>
+        </div>
     )
   }
 }

@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "classnames": "^2.2.5",
+    "event-emitter": "^0.3.4",
     "leaflet": "^0.7.7",
     "merge-object": "^1.0.0",
     "merge-objects": "^1.0.5",

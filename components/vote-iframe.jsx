@@ -4,9 +4,11 @@ import reqwest from 'reqwest';
 import merge from 'merge-object';
 import classNames from 'classnames';
 
-import VoteHeader from './header.jsx';
+import VoteHeader from './vote-header.jsx';
 import VoteForm from './form.jsx';
 import Lmap from './lmap.jsx';
+
+import ee from '../modules/event-emitter.js'
 
 class VoteFrame extends React.Component {
     constructor(props) {
@@ -20,19 +22,31 @@ class VoteFrame extends React.Component {
             artist_id: "12345678",
 
             voted: false,
-            address: "Berlin, Germany",
             lng: 52.51733,
-            lat: 13.38886,
-            zoom: 16
+            lat: 13.38886
         };
-        // this.handleClick = this.handleClick.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.collectData = this.collectData.bind(this)
         this.requestAboutAddress = this.requestAboutAddress.bind(this)
         this.unvote = this.unvote.bind(this)
-        // this.checkConnectionWithMe = this.checkConnectionWithMe.bind(this)
     }
 
+    componentDidMount() {
+        var self = this;
+
+        ee.on('isVoted', function(voted){
+            self.changeAttributeValue('isVoted', voted);
+        })
+
+        ee.on('changeCoords', function(coords){
+            self.changeAttributeValue('lat', coords.lat);
+            self.changeAttributeValue('lng', coords.lng);
+        })
+    }
+
+    componentWillUnmount() {
+        ee.unregister();
+    }
 
 
 
@@ -66,6 +80,13 @@ class VoteFrame extends React.Component {
             }
         })
     }
+
+    changeAttributeValue: function(param, value){
+		var self = this;
+		var obj = {};
+		obj[attribute_name] = value;
+		self.setState(obj);
+    },
 
     handleChange(param){
         return function(event){
