@@ -64,23 +64,14 @@ var VoteFrame = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VoteFrame).call(this, props));
 
         _this.state = {
-            appId: '141443656045564',
-            authResponse: {},
-            voteFormData: {},
-
             artist_name: "Die Lochis",
             artist_id: "die-lochis",
 
             voted: false,
-            address: "Berlin, Germany",
-            lng: 52.51733,
-            lat: 13.38886,
-            zoom: 16
+            lat: 52.51733,
+            lng: 13.38886
         };
-        _this.handleChange = _this.handleChange.bind(_this);
-        // this.collectData = this.collectData.bind(this)
-        // this.requestAboutAddress = this.requestAboutAddress.bind(this)
-        // this.unvote = this.unvote.bind(this)
+        _this.changeAttributeValue = _this.changeAttributeValue.bind(_this);
         return _this;
     }
 
@@ -94,8 +85,12 @@ var VoteFrame = function (_React$Component) {
             });
 
             _eventEmitter2.default.on('changeCoords', function (coords) {
-                self.changeAttributeValue("coords", coords.lat);
-                self.changeAttributeValue("coords", coords.lng);
+                console.log('coooooords', coords);
+
+                self.changeAttributeValue("lat", coords.lat);
+                self.changeAttributeValue("lng", coords.lng);
+
+                console.log('this.state', self.state);
             });
         }
     }, {
@@ -103,38 +98,6 @@ var VoteFrame = function (_React$Component) {
         value: function componentWillUnmount() {
             _eventEmitter2.default.unregister();
         }
-
-        // collectData(){
-        //     var facebookResponse = this.state.authResponse;
-        //
-        //     var fakeVoteFrameData = {
-        //         'artist_id': 'die-lochis',
-        //         'referrer': '',
-        //         'shadow_address': 'Berlingen',
-        //         'address': this.state.address,
-        //         'price': '30',
-        //         'currency': 'GBP',
-        //         'submit': 'facebook',
-        //         'signup_variant': 'facebook'
-        //     }
-        //
-        //     return merge(facebookResponse, fakeVoteFrameData)
-        // }
-        //
-        // sendRequestToAPI(){
-        //     var url = 'http://localhost:3000/demands'
-        //
-        //     reqwest({
-        //         url: url,
-        //         method: 'post',
-        //         crossOrigin: true,
-        //         data: this.collectData(),
-        //         success: function (response) {
-        //             console.log(response)
-        //         }
-        //     })
-        // }
-
     }, {
         key: 'changeAttributeValue',
         value: function changeAttributeValue(param, value) {
@@ -143,38 +106,6 @@ var VoteFrame = function (_React$Component) {
             obj[param] = value;
             self.setState(obj);
         }
-    }, {
-        key: 'handleChange',
-        value: function handleChange(param) {
-            return function (event) {
-                var obj = {};
-                obj[param] = event.target.value;
-                this.setState(obj);
-            }.bind(this);
-        }
-
-        // requestAboutAddress(){
-        //     const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-        //     const key = 'AIzaSyCslEMZxFioSTU3bs2vD7esV6v31oeY8Z4';
-        //     var correctAddress = this.state.address.split(' ').join('+');
-        //
-        //     reqwest({
-        //         url: url+correctAddress,
-        //         method: 'get',
-        //         crossOrigin: true,
-        //         success: function(response){
-        //             if (response.status == "OK") {
-        //                 console.log(response.results[0].geometry.location)
-        //
-        //                 this.setState({
-        //                     lat: response.results[0].geometry.location.lat,
-        //                     lng: response.results[0].geometry.location.lng
-        //                 })
-        //             }
-        //         }.bind(this)
-        //     })
-        // }
-
     }, {
         key: 'render',
         value: function render() {
@@ -200,48 +131,6 @@ exports.default = VoteFrame;
 
 
 _reactDom2.default.render(_react2.default.createElement(VoteFrame, null), document.querySelector('.container'));
-// <div>
-//     {(this.state.voted === false)
-//         ?
-//         <div>
-//             <button onClick={this.requestAboutAddress}>set address from request to googleapis</button>
-//             <input
-//                 type="text"
-//                 value={this.state.address}
-//                 onChange={this.handleChange('address')}/>
-//             <button onClick={this.handleClick}>request to fb</button>
-//         </div>
-//
-//         :
-//         <div>
-//             <button onClick={this.unvote}>Unvote</button>
-//             <Lmap
-//                 position={[this.state.lat, this.state.lng]}
-//                 zoom={this.state.zoom}/>
-//         </div>
-//     }
-// </div>
-
-// OK 1. send request from to login
-//socialId: 141443656045564
-// --------------------------------------------
-// OK 2. receive answer from fb api (promises)
-// ? 3. send request from code-form to backend
-// 4. receive answer from backend
-// 5. redirect?
-
-// from fb (id and token)
-
-//{"authenticity_token"=>"wKRPTzZ7cQR65hymGEpLAd3/HfY0Wp+Qu5yF8lI8Dh8=",
-// "artist_id"=>"die-lochis",
-// "referrer"=>"",
-// "shadow_address"=>"Berlingen",
-// "address"=>"Berlingen,
-// Germany",
-// "price"=>"30",
-// "currency"=>"GBP",
-// "submit"=>"facebook",
-// "signup_variant"=>"facebook"}
 
 },{"../modules/event-emitter.js":6,"./vote-footer.jsx":2,"./vote-form.jsx":3,"./vote-header.jsx":4,"./vote-map.jsx":5,"classnames":7,"merge-object":218,"react":398,"react-dom":221,"reqwest":399}],2:[function(require,module,exports){
 'use strict';
@@ -315,14 +204,25 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _reqwest = require('reqwest');
+
+var _reqwest2 = _interopRequireDefault(_reqwest);
+
+var _mergeObject = require('merge-object');
+
+var _mergeObject2 = _interopRequireDefault(_mergeObject);
+
+var _eventEmitter = require('../modules/event-emitter.js');
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // import React, { PropTypes } from 'react'
-
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var VoteForm = function (_React$Component) {
     _inherits(VoteForm, _React$Component);
@@ -333,18 +233,25 @@ var VoteForm = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VoteForm).call(this, props));
 
         _this.state = {
+            authResponse: {},
+
             authenticity_token: "",
             artist_id: 'die-lochis',
             referrer: '',
+
             shadow_address: 'Berlingen',
             address: "Berlin, Germany",
             price: '30',
             currency: 'GBP',
+
             submit: 'facebook',
             signup_variant: 'facebook'
         };
         _this.checkConnectionWithMe = _this.checkConnectionWithMe.bind(_this);
-
+        _this.handleClick__facebook = _this.handleClick__facebook.bind(_this);
+        _this.handleClick__gplus = _this.handleClick__gplus.bind(_this);
+        _this.handleClick__instagram = _this.handleClick__instagram.bind(_this);
+        _this.handleChange = _this.handleChange.bind(_this);
         return _this;
     }
 
@@ -392,9 +299,10 @@ var VoteForm = function (_React$Component) {
         value: function statusChangeCallback(response) {
             console.log(response);
             this.setState({
-                authResponse: response.authResponse,
-                voted: true
+                authResponse: response.authResponse
             });
+
+            _eventEmitter2.default.emit('isVoted', true);
 
             // ----------
             // setState for voted in positive callback
@@ -402,7 +310,6 @@ var VoteForm = function (_React$Component) {
 
             if (response.status === 'connected' || response.status === "unknown") {
                 this.sendRequestToAPI();
-                // this.checkConnectionWithMe();
             } else if (response.status === 'not_authorized') {
                 console.log('not_authorized', response.status);
             } else {
@@ -417,15 +324,84 @@ var VoteForm = function (_React$Component) {
             }.bind(this));
         }
     }, {
-        key: 'handleClick',
-        value: function handleClick() {
+        key: 'requestAboutAddress',
+        value: function requestAboutAddress() {
+            var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+            var key = 'AIzaSyCslEMZxFioSTU3bs2vD7esV6v31oeY8Z4';
+            var correctAddress = this.state.address.split(' ').join('+');
+
+            (0, _reqwest2.default)({
+                url: url + correctAddress,
+                method: 'get',
+                crossOrigin: true,
+                success: function (response) {
+                    if (response.status == "OK") {
+                        console.log(response.results[0].geometry.location);
+                        _eventEmitter2.default.emit("changeCoords", response.results[0].geometry.location);
+                    }
+                }.bind(this)
+            });
+        }
+    }, {
+        key: 'handleClick__facebook',
+        value: function handleClick__facebook() {
+            this.requestAboutAddress();
             FB.login(function () {
                 this.checkLoginState();
             }.bind(this));
         }
+    }, {
+        key: 'handleClick__gplus',
+        value: function handleClick__gplus() {
+            console.log('hello Google+');
+        }
+    }, {
+        key: 'handleClick__instagram',
+        value: function handleClick__instagram() {
+            console.log('hello Instagram');
+        }
+    }, {
+        key: 'handleChange',
+        value: function handleChange(param) {
+            return function (event) {
+                var obj = {};
+                obj[param] = event.target.value;
+                this.setState(obj);
+            }.bind(this);
+        }
+    }, {
+        key: 'collectData',
+        value: function collectData() {
+            var facebookResponse = this.state.authResponse;
 
-        // to do change state to props
+            var fakeVoteFrameData = {
+                'artist_id': 'die-lochis',
+                'referrer': '',
+                'shadow_address': 'Berlingen',
+                'address': this.state.address,
+                'price': '30',
+                'currency': 'GBP',
+                'submit': 'facebook',
+                'signup_variant': 'facebook'
+            };
 
+            return (0, _mergeObject2.default)(facebookResponse, fakeVoteFrameData);
+        }
+    }, {
+        key: 'sendRequestToAPI',
+        value: function sendRequestToAPI() {
+            var url = 'http://localhost:3000/demands';
+
+            (0, _reqwest2.default)({
+                url: url,
+                method: 'post',
+                crossOrigin: true,
+                data: this.collectData(),
+                success: function success(response) {
+                    console.log(response);
+                }
+            });
+        }
     }, {
         key: 'render',
         value: function render() {
@@ -438,6 +414,15 @@ var VoteForm = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'vote-frame' },
+                        _react2.default.createElement('input', { name: 'authenticity_token',
+                            value: this.state.authenticity_token,
+                            type: 'hidden' }),
+                        _react2.default.createElement('input', { name: 'artist_id',
+                            value: this.state.artist_id,
+                            type: 'hidden' }),
+                        _react2.default.createElement('input', { name: 'referrer',
+                            value: this.state.referrer,
+                            type: 'hidden' }),
                         _react2.default.createElement(
                             'div',
                             { className: 'fragment__vote-information' },
@@ -454,59 +439,50 @@ var VoteForm = function (_React$Component) {
                             _react2.default.createElement('i', { className: 'icon-lock' })
                         ),
                         _react2.default.createElement(
-                            'form',
-                            null,
-                            _react2.default.createElement('input', { name: 'authenticity_token',
-                                value: this.state.authenticity_token,
-                                type: 'hidden' }),
-                            _react2.default.createElement('input', { name: 'artist_id',
-                                value: this.state.artist_id,
-                                type: 'hidden' }),
-                            _react2.default.createElement('input', { name: 'referrer',
-                                value: this.state.referrer,
-                                type: 'hidden' }),
+                            'div',
+                            { className: 'fragment__vote-details' },
                             _react2.default.createElement(
-                                'div',
-                                { className: 'fragment__vote-details' },
-                                _react2.default.createElement(
-                                    'h2',
-                                    null,
-                                    'Please come to'
-                                ),
-                                _react2.default.createElement('input', { className: 'input-field', placeholder: 'Type in your town', type: 'text' }),
-                                _react2.default.createElement(
-                                    'h2',
-                                    null,
-                                    'I\'d pay up to'
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'selects-wrapper' },
-                                    _react2.default.createElement('select', { className: 'select-input', name: 'price' }),
-                                    _react2.default.createElement('select', { className: 'select-input', name: 'currency' })
-                                )
+                                'h2',
+                                null,
+                                'Please come to'
+                            ),
+                            _react2.default.createElement('input', { className: 'input-field', placeholder: 'Type in your town', type: 'text', onChange: this.handleChange('address') }),
+                            _react2.default.createElement(
+                                'h2',
+                                null,
+                                'I\'d pay up to'
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'fragment__vote-buttons' },
+                                { className: 'selects-wrapper' },
+                                _react2.default.createElement('select', { className: 'select-input', name: 'price' }),
+                                _react2.default.createElement('select', { className: 'select-input', name: 'currency' })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'fragment__vote-buttons' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'buttons-wrapper' },
                                 _react2.default.createElement(
-                                    'div',
-                                    { className: 'buttons-wrapper' },
-                                    _react2.default.createElement(
-                                        'button',
-                                        { className: (0, _classnames2.default)('button', 'button__facebook') },
-                                        'Request with Facebook'
-                                    ),
-                                    _react2.default.createElement(
-                                        'button',
-                                        { className: (0, _classnames2.default)('button', 'button__gplus') },
-                                        'Google'
-                                    ),
-                                    _react2.default.createElement(
-                                        'button',
-                                        { className: (0, _classnames2.default)('button', 'button__instagram') },
-                                        'Instagram'
-                                    )
+                                    'button',
+                                    {
+                                        onClick: this.handleClick__facebook,
+                                        className: (0, _classnames2.default)('button', 'button__facebook') },
+                                    'Request with Facebook'
+                                ),
+                                _react2.default.createElement(
+                                    'button',
+                                    {
+                                        className: (0, _classnames2.default)('button', 'button__gplus') },
+                                    'Google'
+                                ),
+                                _react2.default.createElement(
+                                    'button',
+                                    {
+                                        className: (0, _classnames2.default)('button', 'button__instagram') },
+                                    'Instagram'
                                 )
                             )
                         )
@@ -530,7 +506,7 @@ var VoteForm = function (_React$Component) {
 
 exports.default = VoteForm;
 
-},{"classnames":7,"react":398}],4:[function(require,module,exports){
+},{"../modules/event-emitter.js":6,"classnames":7,"merge-object":218,"react":398,"reqwest":399}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -627,7 +603,6 @@ var Lmap = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Lmap).call(this, props));
 
     _this.state = {
-      position: [51.505, -0.09],
       zoom: 12
     };
     return _this;
@@ -636,9 +611,10 @@ var Lmap = function (_React$Component) {
   _createClass(Lmap, [{
     key: 'render',
     value: function render() {
+      console.log('this.props.position', this.props.position);
       return _react2.default.createElement(
         _reactLeaflet.Map,
-        { center: this.props.position, zoom: this.props.zoom },
+        { center: this.props.position, zoom: this.state.zoom },
         _react2.default.createElement(_reactLeaflet.TileLayer, {
           url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
           attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

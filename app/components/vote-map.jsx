@@ -13,14 +13,14 @@ class Lmap extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      position: [51.505, -0.09],
       zoom: 12
     }
   }
 
   render () {
+    console.log('this.props.position', this.props.position);
     return (
-        <Map center={this.props.position} zoom={this.props.zoom}>
+        <Map center={this.props.position} zoom={this.state.zoom}>
           <TileLayer
             url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
