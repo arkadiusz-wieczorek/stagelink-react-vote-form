@@ -138,8 +138,8 @@ class VoteFrame extends React.Component {
                     console.log(response.results[0].geometry.location)
 
                     this.setState({
-                        lat: response.results[0].geometry.location.lng,
-                        lng: response.results[0].geometry.location.lat
+                        lat: response.results[0].geometry.location.lat,
+                        lng: response.results[0].geometry.location.lng
                     })
                 }
             }.bind(this)
@@ -170,7 +170,7 @@ class VoteFrame extends React.Component {
                     <div>
                         <button onClick={this.unvote}>Unvote</button>
                         <Lmap
-                            position={[this.state.lng, this.state.lat]}
+                            position={[this.state.lat, this.state.lng]}
                             zoom={this.state.zoom}/>
                     </div>
                 }
