@@ -19,8 +19,10 @@ class VoteFrame extends React.Component {
             artist_id: "die-lochis",
 
             voted: false,
-            lat: 52.51733,
-            lng: 13.38886
+            coords: {
+                lat: 52.51733,
+                lng: 13.38886
+            }
         };
         this.changeAttributeValue = this.changeAttributeValue.bind(this)
     }
@@ -28,17 +30,13 @@ class VoteFrame extends React.Component {
     componentDidMount() {
         var self = this;
 
-		ee.on('isVoted', function(voted) {
-			self.changeAttributeValue("voted", voted);
+        ee.on('isVoted', function(voted) {
+            self.changeAttributeValue("voted", voted);
         });
 
         ee.on('changeCoords', function(coords){
-            console.log('coooooords', coords);
-
-            self.changeAttributeValue("lat", coords.lat);
-            self.changeAttributeValue("lng", coords.lng);
-
-            console.log('this.state', self.state);
+            console.log('ee on', coords);
+            self.changeAttributeValue('coords', coords);
         })
     }
 
@@ -66,7 +64,7 @@ class VoteFrame extends React.Component {
 
                     :
                     <Map
-                        position={[this.state.lat, this.state.lng]}/>
+                        position={[this.state.coords.lat, this.state.coords.lng]}/>
                 }
             </div>
         )

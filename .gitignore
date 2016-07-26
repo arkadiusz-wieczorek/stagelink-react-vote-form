@@ -3,3 +3,4 @@ npm-debug.log
 public/js/*
 public/css/leaflet.css
 node_modules/*
+app/public/js/*
