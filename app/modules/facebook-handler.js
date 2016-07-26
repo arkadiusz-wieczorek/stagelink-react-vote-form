@@ -21,37 +21,25 @@ var facebookHandler = new function() {
         };
     }
 
-
 	this.checkUserConnection = function(){
 		FB.api('/me', response => console.log(response));
 	}
 
-	this.checkLoginState = function(){
-		FB.getLoginStatus(function(response){
-			console.log('response', response);
-			return response
-		})
-	}
-
-	this.decisionOnResponse = function(response){
-		console.log('decisionOnResponse');
-
-        if (response.status === 'connected' || response.status === "unknown") {
-            return {logged: true, response: response};
-        } else if (response.status === 'not_authorized') {
-            console.log('not_authorized', response.status)
-			return {logged: false};
-        } else {
-            console.log('please log into fb')
-			return {logged: false};
-		}
-	}
-
 	this.login = function(){
-		return FB.login(function(response){
-			console.log('login');
-			this.decisionOnResponse(response);
-		}.bind(this));
+		return new Promise(function(resolve, reject){
+			FB.login(function(response){
+
+				if (response.status === 'connected' || response.status === "unknown") {
+					resolve({logged: true, response: response})
+				} else if (response.status === 'not_authorized') {
+					console.log('not_authorized', response.status)
+					reject({logged: false})
+				} else {
+					console.log('please log into fb')
+					reject({logged: false})
+				}
+			});
+		})
 	}
 
 
