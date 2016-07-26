@@ -58,11 +58,11 @@ class VoteForm extends React.Component{
     handleClick__facebook() {
         var self = this;
         facebookHandler.login()
-            .then(function(response){
+            .then(function(data){
                 self.setState({
-                    authResponse: response.authResponse
+                    authResponse: data.response.authResponse
                 })
-                ee.emit('isVoted', true);
+                ee.emit('isVoted', data.logged);
             })
         self.requestAboutAddress()
     }
