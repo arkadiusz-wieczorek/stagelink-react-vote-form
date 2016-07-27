@@ -19,16 +19,14 @@ const googleHandler = new (function() {
             });
             console.log('auth2', auth2);
 
-          // Sign the user in, and then retrieve their ID.
-          auth2.signIn().then(function() {
-              console.log('ekhm');
-            console.log(auth2.currentUser.get().getId());
-          });
+            auth2.signIn({
+                fetch_basic_profile: true,
+                scope: 'profile email'
+            }).then((response) => {
+                console.log('response', response);
+            })
 
         });
-
-
-
     }
 
     this.test = () => {
