@@ -5,6 +5,7 @@ import merge from 'merge-object';
 
 import ee from '../modules/event-emitter.js';
 import facebookHandler from '../modules/facebook-handler.js';
+import googleHandler from '../modules/google-handler.js';
 
 class VoteForm extends React.Component{
     constructor(props){
@@ -33,9 +34,11 @@ class VoteForm extends React.Component{
 
     componentWillMount(){
         facebookHandler.loadSdk();
+        googleHandler.loadSdk();
     }
     componentDidMount() {
         facebookHandler.init();
+        // googleHandler.init();
     }
 
     requestAboutAddress(){
@@ -77,6 +80,7 @@ class VoteForm extends React.Component{
 
     handleClick__gplus(){
         console.log('hello Google+');
+        googleHandler.init()
     }
 
     handleClick__instagram(){
@@ -163,6 +167,7 @@ class VoteForm extends React.Component{
                                     Request with Facebook
                                 </button>
                                 <button
+                                    onClick={this.handleClick__gplus}
                                     className={classNames('button', 'button__gplus')}>
                                     Google
                                 </button>
