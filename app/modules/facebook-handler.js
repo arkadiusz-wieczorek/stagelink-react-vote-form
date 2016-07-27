@@ -14,7 +14,7 @@ const facebookHandler = new (function() {
     this.init = () => {
         window.fbAsyncInit = () => {
             FB.init({
-                appId      : '141443656045564', // need to change for state
+                appId      : '141443656045564',
                 cookie     : true,
                 xfbml      : true,
                 version    : 'v2.0'
@@ -30,7 +30,7 @@ const facebookHandler = new (function() {
         FB.login(response => {
 
             if (response.status === 'connected' || response.status === "unknown") {
-                resolve({logged: true, response})
+                resolve({logged: true, response: response})
             } else if (response.status === 'not_authorized') {
                 console.log('not_authorized', response.status)
                 reject({logged: false})
@@ -40,8 +40,6 @@ const facebookHandler = new (function() {
             }
         });
     })
-
-
 });
 
 export default facebookHandler;

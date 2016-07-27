@@ -38,7 +38,6 @@ class VoteForm extends React.Component{
     }
     componentDidMount() {
         facebookHandler.init();
-        // googleHandler.init();
     }
 
     requestAboutAddress(){
@@ -64,7 +63,7 @@ class VoteForm extends React.Component{
         self.requestAboutAddress()
 
         facebookHandler.login()
-            .then(function(data){
+            .then((data) => {
                 self.setState({
                     authResponse: data.response.authResponse,
                     submit: 'facebook',
@@ -79,8 +78,25 @@ class VoteForm extends React.Component{
     }
 
     handleClick__gplus(){
-        console.log('hello Google+');
+		let self = this;
+		self.requestAboutAddress()
+
         googleHandler.init()
+            .then(() => {
+				googleHandler.login()
+					.then((data) => {
+						self.setState({
+							authResponse: data.response,
+							submit: 'google',
+							signup_variant: 'google'
+						})
+						console.log('self.state', self.state);
+						ee.emit('isVoted', data.logged)
+					})
+					.catch(function(err) {
+						console.log('user_error', err);
+					})
+			})
     }
 
     handleClick__instagram(){
@@ -94,23 +110,6 @@ class VoteForm extends React.Component{
             this.setState(obj);
         }.bind(this);
     }
-
-    // collectData(){
-    //     let authResponse = this.state.authResponse;
-    //
-    //     let fakeVoteFrameData = {
-    //         'artist_id': 'die-lochis',
-    //         'referrer': '',
-    //         'shadow_address': 'Berlingen',
-    //         'address': this.state.address,
-    //         'price': '30',
-    //         'currency': 'GBP',
-    //         'submit': 'facebook',
-    //         'signup_variant': 'facebook'
-    //     }
-    //
-    //     return merge(authResponse, fakeVoteFrameData)
-    // }
 
     sendRequestToAPI(){
         let url = 'http://localhost:3000/demands'
