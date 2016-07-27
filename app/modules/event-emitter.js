@@ -1,19 +1,19 @@
-var EventEmitter = require('event-emitter');
-var eeAllOff = require('event-emitter/all-off');
+import EventEmitter from 'event-emitter';
+import eeAllOff from 'event-emitter/all-off';
 
-var Event = new function() {
+const Event = new (function() {
 
-	var ee = new EventEmitter();
+	const ee = new EventEmitter();
 	this.on = ee.on.bind(ee);
 	this.off = ee.off.bind(ee);
 	this.once = ee.once.bind(ee);
 	this.emit = ee.emit.bind(ee);
-	this.unregister = function(){
+	this.unregister = () => {
 		eeAllOff(ee);
 	}
-	this.isVoted = function(voted) {
+	this.isVoted = voted => {
 		ee.emit('voted', voted);
 	};
-}
+});
 
-module.exports = Event;
+export default Event;

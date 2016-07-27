@@ -1,17 +1,18 @@
-var facebookHandler = new function() {
+const facebookHandler = new (function() {
 
-	this.loadSdk = function(){
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
+	this.loadSdk = () => {
+        (((d, s, id) => {
+            let js;
+            const fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
+            js = d.createElement(s);js.id = id;
             js.src = 'http://connect.facebook.net/en_US/sdk.js';
             fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+        })(document, 'script', 'facebook-jssdk'));
 	}
 
-    this.init = function(){
-        window.fbAsyncInit = function() {
+    this.init = () => {
+        window.fbAsyncInit = () => {
             FB.init({
                 appId      : '141443656045564', // need to change for state
                 cookie     : true,
@@ -21,28 +22,26 @@ var facebookHandler = new function() {
         };
     }
 
-	this.checkUserConnection = function(){
+	this.checkUserConnection = () => {
 		FB.api('/me', response => console.log(response));
 	}
 
-	this.login = function(){
-		return new Promise(function(resolve, reject){
-			FB.login(function(response){
+	this.login = () => new Promise((resolve, reject) => {
+        FB.login(response => {
 
-				if (response.status === 'connected' || response.status === "unknown") {
-					resolve({logged: true, response: response})
-				} else if (response.status === 'not_authorized') {
-					console.log('not_authorized', response.status)
-					reject({logged: false})
-				} else {
-					console.log('please log into fb')
-					reject({logged: false})
-				}
-			});
-		})
-	}
+            if (response.status === 'connected' || response.status === "unknown") {
+                resolve({logged: true, response})
+            } else if (response.status === 'not_authorized') {
+                console.log('not_authorized', response.status)
+                reject({logged: false})
+            } else {
+                console.log('please log into fb')
+                reject({logged: false})
+            }
+        });
+    })
 
 
-}
+});
 
-module.exports = facebookHandler;
+export default facebookHandler;
