@@ -12,17 +12,18 @@ class VoteForm extends React.Component{
         this.state = {
             authResponse: {},
 
-            authenticity_token: "",
             artist_id: 'die-lochis',
-            referrer: '',
 
-            shadow_address: 'Berlingen',
-            address: "Berlin, Germany",
-            price: '30',
-            currency: 'GBP',
+            shadow_address: '',
+            address: "",
+            price: '',
+            currency: '',
 
-            submit: 'facebook',
-            signup_variant: 'facebook'
+
+            referrer: document.referrer,
+            request_url: window.location.href,
+            submit: '',
+            signup_variant: ''
         }
         this.handleClick__facebook = this.handleClick__facebook.bind(this)
         this.handleClick__gplus = this.handleClick__gplus.bind(this)
@@ -40,15 +41,15 @@ class VoteForm extends React.Component{
     requestAboutAddress(){
         const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
         const key = 'AIzaSyCslEMZxFioSTU3bs2vD7esV6v31oeY8Z4';
-        var correctAddress = this.state.address.split(' ').join('+');
+        let correctAddress = this.state.address.split(' ').join('+');
 
         reqwest({
             url: url+correctAddress,
             method: 'get',
             crossOrigin: true,
             success: function(response){
-                if (response.status == "OK") {
-                    // console.log(response.results[0].geometry.location)
+                console.log('response', response);
+                if (response.status === "OK") {
                     ee.emit("changeCoords", response.results[0].geometry.location)
                 }
             }.bind(this)
@@ -56,15 +57,22 @@ class VoteForm extends React.Component{
     }
 
     handleClick__facebook() {
-        var self = this;
+        let self = this;
+        self.requestAboutAddress()
+
         facebookHandler.login()
             .then(function(data){
                 self.setState({
-                    authResponse: data.response.authResponse
+                    authResponse: data.response.authResponse,
+                    submit: 'facebook',
+                    signup_variant: 'facebook'
                 })
+                console.log('self.state', self.state);
                 ee.emit('isVoted', data.logged);
             })
-        self.requestAboutAddress()
+            .catch(function(err) {
+                console.log('user_error', err);
+            })
     }
 
     handleClick__gplus(){
@@ -77,37 +85,37 @@ class VoteForm extends React.Component{
 
     handleChange(param){
         return function(event){
-            var obj = {};
+            let obj = {};
             obj[param] = event.target.value
             this.setState(obj);
         }.bind(this);
     }
 
-    collectData(){
-        var facebookResponse = this.state.authResponse;
-
-        var fakeVoteFrameData = {
-            'artist_id': 'die-lochis',
-            'referrer': '',
-            'shadow_address': 'Berlingen',
-            'address': this.state.address,
-            'price': '30',
-            'currency': 'GBP',
-            'submit': 'facebook',
-            'signup_variant': 'facebook'
-        }
-
-        return merge(facebookResponse, fakeVoteFrameData)
-    }
+    // collectData(){
+    //     let authResponse = this.state.authResponse;
+    //
+    //     let fakeVoteFrameData = {
+    //         'artist_id': 'die-lochis',
+    //         'referrer': '',
+    //         'shadow_address': 'Berlingen',
+    //         'address': this.state.address,
+    //         'price': '30',
+    //         'currency': 'GBP',
+    //         'submit': 'facebook',
+    //         'signup_variant': 'facebook'
+    //     }
+    //
+    //     return merge(authResponse, fakeVoteFrameData)
+    // }
 
     sendRequestToAPI(){
-        var url = 'http://localhost:3000/demands'
+        let url = 'http://localhost:3000/demands'
 
         reqwest({
             url: url,
             method: 'post',
             crossOrigin: true,
-            data: this.collectData(),
+            data: this.state,
             success: function (response) {
                 console.log(response)
             }
