@@ -2,10 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 import reqwest from 'reqwest';
 import merge from 'merge-object';
+import InstagramButton from '../modules/instagram-handler.jsx';
 
 import ee from '../modules/event-emitter.js';
 import facebookHandler from '../modules/facebook-handler.js';
 import googleHandler from '../modules/google-handler.js';
+import instagramHandler from '../modules/instagram-handler.js';
 
 class VoteForm extends React.Component{
     constructor(props){
@@ -20,7 +22,6 @@ class VoteForm extends React.Component{
             price: '',
             currency: '',
 
-
             referrer: document.referrer,
             request_url: window.location.href,
             submit: '',
@@ -30,6 +31,7 @@ class VoteForm extends React.Component{
         this.handleClick__gplus = this.handleClick__gplus.bind(this)
         this.handleClick__instagram = this.handleClick__instagram.bind(this)
         this.handleChange = this.handleChange.bind(this)
+		this.requestAboutAddress = this.requestAboutAddress.bind(this)
     }
 
     componentWillMount(){
@@ -60,7 +62,6 @@ class VoteForm extends React.Component{
 
     handleClick__facebook() {
         let self = this;
-        self.requestAboutAddress()
 
         facebookHandler.login()
             .then((data) => {
@@ -79,7 +80,6 @@ class VoteForm extends React.Component{
 
     handleClick__gplus(){
 		let self = this;
-		self.requestAboutAddress()
 
         googleHandler.init()
             .then(() => {
@@ -101,6 +101,8 @@ class VoteForm extends React.Component{
 
     handleClick__instagram(){
         console.log('hello Instagram');
+		instagramHandler.test()
+
     }
 
     handleChange(param){
@@ -130,35 +132,35 @@ class VoteForm extends React.Component{
             <div className="wrapper">
                 <div className="overlay-map">
                     <div className="vote-frame">
+						<input name="authenticity_token"
+							value={this.state.authenticity_token}
+							type="hidden"/>
+						<input name="artist_id"
+							value={this.state.artist_id}
+							type="hidden"/>
+						<input name="referrer"
+							value={this.state.referrer}
+							type="hidden"/>
 
-                        <input name="authenticity_token"
-                            value={this.state.authenticity_token}
-                            type="hidden"/>
-                        <input name="artist_id"
-                            value={this.state.artist_id}
-                            type="hidden"/>
-                        <input name="referrer"
-                            value={this.state.referrer}
-                            type="hidden"/>
+						<div className="fragment__vote-information">
+							<h2>Vote now!</h2>
+							<p>Request a show to access exclusive content and early bird tickets.</p>
+							<i className="icon-lock"></i>
+						</div>
 
-                        <div className="fragment__vote-information">
-                            <h2>Vote now!</h2>
-                            <p>Request a show to access exclusive content and early bird tickets.</p>
-                            <i className="icon-lock"></i>
-                        </div>
+						<div className="fragment__vote-details">
+							<h2>Please come to</h2>
+							<input className="input-field" placeholder="Type in your town" type="text" onChange={this.handleChange('address')}/>
 
-                        <div className="fragment__vote-details">
-                            <h2>Please come to</h2>
-                            <input className="input-field" placeholder="Type in your town" type="text" onChange={this.handleChange('address')}/>
+							<h2>I'd pay up to</h2>
+							<div className="selects-wrapper">
+								<select className="select-input" name="price"></select>
+								<select className="select-input" name="currency"></select>
+							</div>
+						</div>
 
-                            <h2>I'd pay up to</h2>
-                            <div className="selects-wrapper">
-                                <select className="select-input" name="price"></select>
-                                <select className="select-input" name="currency"></select>
-                            </div>
-                        </div>
 
-                        <div className="fragment__vote-buttons">
+                        <div className="fragment__vote-buttons" onClick={this.requestAboutAddress}>
                             <div className="buttons-wrapper">
                                 <button
                                     onClick={this.handleClick__facebook}
@@ -170,10 +172,9 @@ class VoteForm extends React.Component{
                                     className={classNames('button', 'button__gplus')}>
                                     Google
                                 </button>
-                                <button
-                                    className={classNames('button', 'button__instagram')}>
-                                    Instagram
-                                </button>
+
+								<InstagramButton
+									text="Instagram"/>
                             </div>
                         </div>
 

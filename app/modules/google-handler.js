@@ -7,7 +7,7 @@ const googleHandler = new (function() {
         let script = document.createElement('script');
         let async = script.setAttribute('async', "true");
         let defer = script.setAttribute('defer', "true");
-        let src = script.setAttribute('src', apiUrl)
+        let src = script.setAttribute('src', apiUrl);
         document.body.insertBefore(script, document.querySelector('[name=react]'))
 	}
 
@@ -26,7 +26,7 @@ const googleHandler = new (function() {
 		});
 	});
 
-	this.login = () =>	new Promise((resolve, reject) => {
+	this.login = () => new Promise((resolve, reject) => {
 		let self = this;
 		self.auth2.signIn({
 			fetch_basic_profile: true,
