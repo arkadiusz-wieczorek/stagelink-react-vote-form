@@ -11,9 +11,6 @@ const Event = new (function() {
 	this.unregister = () => {
 		eeAllOff(ee);
 	}
-	this.isVoted = voted => {
-		ee.emit('voted', voted);
-	};
 });
 
 export default Event;

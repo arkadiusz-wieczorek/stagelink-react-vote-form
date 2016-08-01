@@ -2,6 +2,7 @@
 import React from 'react';
 import InstagramLogin from 'react-instagram-login';
 import classNames from 'classnames';
+import ee from '../modules/event-emitter.js';
 
 
 class InstagramButton extends React.Component {
@@ -13,7 +14,12 @@ class InstagramButton extends React.Component {
 		this.responseInstagram = this.responseInstagram.bind(this)
     }
 	responseInstagram(response){
-		console.log(response);
+		console.log('response', response);
+		ee.emit('instagramResponse', response)
+	}
+
+	componentWillUnmount() {
+		ee.emit('isVoted', true);
 	}
 
 	render(){

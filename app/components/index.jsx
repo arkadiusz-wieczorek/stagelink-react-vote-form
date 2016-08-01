@@ -10,6 +10,7 @@ import VoteFooter from './vote-footer.jsx';
 import Map from './vote-map.jsx';
 
 import ee from '../modules/event-emitter.js';
+import urlParams from '../modules/params-handler.js';
 
 class VoteFrame extends React.Component {
     constructor(props) {
@@ -20,25 +21,54 @@ class VoteFrame extends React.Component {
 
             voted: false,
             coords: {
-                lat: 52.51733,
-                lng: 13.38886
+                lat: 0,
+                lng: 0
             }
         };
         this.changeAttributeValue = this.changeAttributeValue.bind(this)
     }
 
     componentDidMount() {
-        var self = this;
+        let self = this;
 
         ee.on('isVoted', function(voted) {
             self.changeAttributeValue("voted", voted);
+			// localStorage.setItem('voted', voted)
         });
 
         ee.on('changeCoords', function(coords){
             console.log('ee on', coords);
             self.changeAttributeValue('coords', coords);
+			localStorage.setItem('stagelink-coords', JSON.stringify(coords))
         })
+
+		// ee.on('instagramResponse', function(response){
+		// 	console.log('emit instagramResponse', response);
+		// })
     }
+
+	componentWillMount(){
+		let self = this;
+		let stagelinkVote = JSON.parse(localStorage.getItem('stagelink-vote'))
+
+		let stagelinkCoords = JSON.parse(localStorage.getItem('stagelink-coords'))
+
+		if (stagelinkVote !== null && stagelinkVote.artist_id === urlParams['artist_id']) {
+			self.changeAttributeValue('voted', true)
+		}
+
+		if (stagelinkCoords !== null) {
+			self.changeAttributeValue('coords', stagelinkCoords)
+		}
+
+		// this params (code) is from instagramResponse → handle to change view to map
+		if (urlParams['code'] !== undefined) {
+
+			//to do
+			// self.changeAttributeValue('voted', true)
+			//
+		}
+	}
 
     componentWillUnmount() {
         ee.unregister();
@@ -58,7 +88,7 @@ class VoteFrame extends React.Component {
                     ?
                     <div className="vote-box">
                         <VoteHeader artist_name={this.state.artist_name} />
-                        <VoteForm />
+                        <VoteForm changeAttributeValue={this.changeAttributeValue} />
                         <VoteFooter />
                     </div>
 

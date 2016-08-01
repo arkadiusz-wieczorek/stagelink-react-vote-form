@@ -2,12 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import reqwest from 'reqwest';
 import merge from 'merge-object';
-import InstagramButton from '../modules/instagram-handler.jsx';
 
 import ee from '../modules/event-emitter.js';
 import facebookHandler from '../modules/facebook-handler.js';
 import googleHandler from '../modules/google-handler.js';
-import instagramHandler from '../modules/instagram-handler.js';
+import InstagramButton from '../modules/instagram-handler.jsx';
+
+import urlParams from '../modules/params-handler.js';
 
 class VoteForm extends React.Component{
     constructor(props){
@@ -29,7 +30,7 @@ class VoteForm extends React.Component{
         }
         this.handleClick__facebook = this.handleClick__facebook.bind(this)
         this.handleClick__gplus = this.handleClick__gplus.bind(this)
-        this.handleClick__instagram = this.handleClick__instagram.bind(this)
+		this.handleBeforeRequest = this.handleBeforeRequest.bind(this)
         this.handleChange = this.handleChange.bind(this)
 		this.requestAboutAddress = this.requestAboutAddress.bind(this)
     }
@@ -41,6 +42,15 @@ class VoteForm extends React.Component{
     componentDidMount() {
         facebookHandler.init();
     }
+
+	componentWillUnmount() {
+		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
+	}
+
+	handleBeforeRequest(){
+		this.requestAboutAddress()
+
+	}
 
     requestAboutAddress(){
         const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
@@ -99,12 +109,6 @@ class VoteForm extends React.Component{
 			})
     }
 
-    handleClick__instagram(){
-        console.log('hello Instagram');
-		instagramHandler.test()
-
-    }
-
     handleChange(param){
         return function(event){
             let obj = {};
@@ -113,19 +117,19 @@ class VoteForm extends React.Component{
         }.bind(this);
     }
 
-    sendRequestToAPI(){
-        let url = 'http://localhost:3000/demands'
-
-        reqwest({
-            url: url,
-            method: 'post',
-            crossOrigin: true,
-            data: this.state,
-            success: function (response) {
-                console.log(response)
-            }
-        })
-    }
+    // sendRequestToAPI(){
+    //     let url = 'http://localhost:3000/demands'
+	//
+    //     reqwest({
+    //         url: url,
+    //         method: 'post',
+    //         crossOrigin: true,
+    //         data: this.state,
+    //         success: function (response) {
+    //             console.log(response)
+    //         }
+    //     })
+    // }
 
     render () {
         return (
@@ -160,7 +164,7 @@ class VoteForm extends React.Component{
 						</div>
 
 
-                        <div className="fragment__vote-buttons" onClick={this.requestAboutAddress}>
+                        <div className="fragment__vote-buttons" onClick={this.handleBeforeRequest}>
                             <div className="buttons-wrapper">
                                 <button
                                     onClick={this.handleClick__facebook}
