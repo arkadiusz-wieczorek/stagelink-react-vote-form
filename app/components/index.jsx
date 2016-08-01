@@ -33,18 +33,12 @@ class VoteFrame extends React.Component {
 
         ee.on('isVoted', function(voted) {
             self.changeAttributeValue("voted", voted);
-			// localStorage.setItem('voted', voted)
         });
 
         ee.on('changeCoords', function(coords){
-            console.log('ee on', coords);
             self.changeAttributeValue('coords', coords);
 			localStorage.setItem('stagelink-coords', JSON.stringify(coords))
         })
-
-		// ee.on('instagramResponse', function(response){
-		// 	console.log('emit instagramResponse', response);
-		// })
     }
 
 	componentWillMount(){
@@ -63,10 +57,9 @@ class VoteFrame extends React.Component {
 
 		// this params (code) is from instagramResponse → handle to change view to map
 		if (urlParams['code'] !== undefined) {
-
 			//to do
 			// self.changeAttributeValue('voted', true)
-			//
+			// requestToBackend with code from instagram and localStorage
 		}
 	}
 

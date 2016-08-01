@@ -25,12 +25,12 @@ class VoteForm extends React.Component{
 
             referrer: document.referrer,
             request_url: window.location.href,
-            submit: '',
-            signup_variant: ''
+            submit: 'instagram',
+            signup_variant: 'instagram'
         }
         this.handleClick__facebook = this.handleClick__facebook.bind(this)
         this.handleClick__gplus = this.handleClick__gplus.bind(this)
-		this.handleBeforeRequest = this.handleBeforeRequest.bind(this)
+		this.beforeRequest = this.beforeRequest.bind(this)
         this.handleChange = this.handleChange.bind(this)
 		this.requestAboutAddress = this.requestAboutAddress.bind(this)
     }
@@ -47,7 +47,8 @@ class VoteForm extends React.Component{
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
 	}
 
-	handleBeforeRequest(){
+	beforeRequest(){
+		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
 		this.requestAboutAddress()
 
 	}
@@ -109,6 +110,7 @@ class VoteForm extends React.Component{
 			})
     }
 
+
     handleChange(param){
         return function(event){
             let obj = {};
@@ -164,7 +166,7 @@ class VoteForm extends React.Component{
 						</div>
 
 
-                        <div className="fragment__vote-buttons" onClick={this.handleBeforeRequest}>
+                        <div className="fragment__vote-buttons" onClick={this.beforeRequest}>
                             <div className="buttons-wrapper">
                                 <button
                                     onClick={this.handleClick__facebook}

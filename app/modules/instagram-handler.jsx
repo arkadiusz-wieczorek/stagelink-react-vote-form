@@ -15,11 +15,10 @@ class InstagramButton extends React.Component {
     }
 	responseInstagram(response){
 		console.log('response', response);
-		ee.emit('instagramResponse', response)
 	}
 
 	componentWillUnmount() {
-		ee.emit('isVoted', true);
+		// ee.emit('isVoted', true);
 	}
 
 	render(){
