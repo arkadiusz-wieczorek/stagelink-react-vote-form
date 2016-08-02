@@ -56,7 +56,7 @@ class VoteFrame extends React.Component {
 		}
 
 		//handle response from instagram to send request to backend
-		if (urlParams['code'] !== undefined) {
+		if (urlParams['code'] !== undefined && stagelinkVote !== null) {
 			let instagramCode = urlParams['code']
 			stagelinkVote.authResponse = instagramCode
 			stagelinkVote.submit = 'instagram'
