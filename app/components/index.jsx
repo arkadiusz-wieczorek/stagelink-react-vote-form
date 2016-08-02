@@ -16,8 +16,8 @@ class VoteFrame extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            artist_name: "Die Lochis",
-            artist_id: "die-lochis",
+            artist_name: artist.name,
+            artist_id: artist.id,
 
             voted: false,
             coords: {
@@ -47,7 +47,7 @@ class VoteFrame extends React.Component {
 
 		let stagelinkCoords = JSON.parse(localStorage.getItem('stagelink-coords'))
 
-		if (stagelinkVote !== null && stagelinkVote.artist_id === urlParams['artist_id']) {
+		if (stagelinkVote !== null && stagelinkVote.artist_id === artist.id) {
 			self.changeAttributeValue('voted', true)
 		}
 
