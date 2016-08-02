@@ -62,7 +62,7 @@ h1{
 }
 
 .overlay-map{
-	background-image: url('../images/bg-map-blur.jpg');
+	/*background-image: url('../images/bg-map-blur.jpg');*/
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -262,4 +262,24 @@ footer img{
 		margin-left: 1rem;
 		margin-right: 1rem;
 	}*/
+	header{
+		padding-top: 1rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+	h1{
+		line-height: 2.6rem;
+	}
+
+	.vote-frame{
+		width: auto;
+		padding-top: 1rem;
+		
+	}
+
+	.fragment__vote-information{
+		border-top-right-radius: 0;
+		border-top-left-radius: 0;
+	}
 }
