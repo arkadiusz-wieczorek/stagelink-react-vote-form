@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import reqwest from 'reqwest';
-import merge from 'merge-object';
 import classNames from 'classnames';
 
 import VoteHeader from './vote-header.jsx';
@@ -11,13 +9,13 @@ import Map from './vote-map.jsx';
 
 import ee from '../modules/event-emitter.js';
 import urlParams from '../modules/params-handler.js';
+import rq from '../modules/request-wrapper.js';
 
 class VoteFrame extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            artist_name: artist.name,
-            artist_id: artist.id,
+    		artist: artist,
 
             voted: false,
             coords: {
@@ -48,6 +46,7 @@ class VoteFrame extends React.Component {
 		let stagelinkCoords = JSON.parse(localStorage.getItem('stagelink-coords'))
 
 		if (stagelinkVote !== null && stagelinkVote.artist_id === artist.id) {
+			console.log('stagelinkVote', stagelinkVote)
 			self.changeAttributeValue('voted', true)
 		}
 
@@ -55,11 +54,13 @@ class VoteFrame extends React.Component {
 			self.changeAttributeValue('coords', stagelinkCoords)
 		}
 
-		// this params (code) is from instagramResponse → handle to change view to map
+		//handle response from instagram to send request to backend
 		if (urlParams['code'] !== undefined) {
-			//to do
-			// self.changeAttributeValue('voted', true)
-			// requestToBackend with code from instagram and localStorage
+			let instagramCode = urlParams['code']
+			stagelinkVote.authResponse = instagramCode
+			stagelinkVote.submit = 'instagram'
+			stagelinkVote.signup_variant = 'instagram'
+			rq.sendVote(stagelinkVote)
 		}
 	}
 
@@ -80,8 +81,11 @@ class VoteFrame extends React.Component {
                 {(this.state.voted === false)
                     ?
                     <div className="vote-box">
-                        <VoteHeader artist_name={this.state.artist_name} />
-                        <VoteForm changeAttributeValue={this.changeAttributeValue} />
+                        <VoteHeader
+							artist_name={this.state.artist.name}/>
+                        <VoteForm
+							changeAttributeValue={this.changeAttributeValue}
+							artist_id={this.state.artist.id} />
                         <VoteFooter />
                     </div>
 

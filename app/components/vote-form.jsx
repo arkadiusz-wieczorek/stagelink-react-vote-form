@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import reqwest from 'reqwest';
-import merge from 'merge-object';
 
 import ee from '../modules/event-emitter.js';
 import facebookHandler from '../modules/facebook-handler.js';
@@ -9,6 +8,7 @@ import googleHandler from '../modules/google-handler.js';
 import InstagramButton from '../modules/instagram-handler.jsx';
 
 import urlParams from '../modules/params-handler.js';
+import rq from '../modules/request-wrapper.js';
 
 class VoteForm extends React.Component{
     constructor(props){
@@ -16,7 +16,7 @@ class VoteForm extends React.Component{
         this.state = {
             authResponse: {},
 
-            artist_id: 'die-lochis',
+            artist_id: this.props.artist_id,
 
             shadow_address: '',
             address: "",
@@ -25,14 +25,13 @@ class VoteForm extends React.Component{
 
             referrer: document.referrer,
             request_url: window.location.href,
-            submit: 'instagram',
-            signup_variant: 'instagram'
+            submit: '',
+            signup_variant: ''
         }
         this.handleClick__facebook = this.handleClick__facebook.bind(this)
         this.handleClick__gplus = this.handleClick__gplus.bind(this)
 		this.beforeRequest = this.beforeRequest.bind(this)
         this.handleChange = this.handleChange.bind(this)
-		this.requestAboutAddress = this.requestAboutAddress.bind(this)
     }
 
     componentWillMount(){
@@ -49,27 +48,12 @@ class VoteForm extends React.Component{
 
 	beforeRequest(){
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
-		this.requestAboutAddress()
 
+		rq.getCoords(this.state.address)
+
+		rq.sendVote()
 	}
 
-    requestAboutAddress(){
-        const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-        const key = 'AIzaSyCslEMZxFioSTU3bs2vD7esV6v31oeY8Z4';
-        let correctAddress = this.state.address.split(' ').join('+');
-
-        reqwest({
-            url: url+correctAddress,
-            method: 'get',
-            crossOrigin: true,
-            success: function(response){
-                console.log('response', response);
-                if (response.status === "OK") {
-                    ee.emit("changeCoords", response.results[0].geometry.location)
-                }
-            }.bind(this)
-        })
-    }
 
     handleClick__facebook() {
         let self = this;
@@ -110,7 +94,6 @@ class VoteForm extends React.Component{
 			})
     }
 
-
     handleChange(param){
         return function(event){
             let obj = {};
@@ -118,20 +101,6 @@ class VoteForm extends React.Component{
             this.setState(obj);
         }.bind(this);
     }
-
-    // sendRequestToAPI(){
-    //     let url = 'http://localhost:3000/demands'
-	//
-    //     reqwest({
-    //         url: url,
-    //         method: 'post',
-    //         crossOrigin: true,
-    //         data: this.state,
-    //         success: function (response) {
-    //             console.log(response)
-    //         }
-    //     })
-    // }
 
     render () {
         return (
