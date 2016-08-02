@@ -45,11 +45,12 @@ class VoteFrame extends React.Component {
 
 		let stagelinkCoords = JSON.parse(localStorage.getItem('stagelink-coords'))
 
+		// redirect to map view when artist-id in form it is identical with global artist-id
 		if (stagelinkVote !== null && stagelinkVote.artist_id === artist.id) {
-			console.log('stagelinkVote', stagelinkVote)
 			self.changeAttributeValue('voted', true)
 		}
 
+		// handle coords when this component is mounting again
 		if (stagelinkCoords !== null) {
 			self.changeAttributeValue('coords', stagelinkCoords)
 		}

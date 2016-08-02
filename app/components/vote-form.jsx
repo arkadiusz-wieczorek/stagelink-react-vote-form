@@ -50,8 +50,6 @@ class VoteForm extends React.Component{
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
 
 		rq.getCoords(this.state.address)
-
-		rq.sendVote()
 	}
 
 
@@ -65,7 +63,8 @@ class VoteForm extends React.Component{
                     submit: 'facebook',
                     signup_variant: 'facebook'
                 })
-                console.log('self.state', self.state);
+				rq.sendVote(self.state)
+
                 ee.emit('isVoted', data.logged);
             })
             .catch(function(err) {
@@ -85,7 +84,8 @@ class VoteForm extends React.Component{
 							submit: 'google',
 							signup_variant: 'google'
 						})
-						console.log('self.state', self.state);
+						rq.sendVote(self.state)
+
 						ee.emit('isVoted', data.logged)
 					})
 					.catch(function(err) {
