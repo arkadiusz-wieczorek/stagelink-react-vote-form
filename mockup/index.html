@@ -4,17 +4,17 @@
         <meta charset="utf-8">
         <meta content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" name="viewport">
         <title>Stagelink</title>
+		<link rel="stylesheet" href="./css/icomoon-font.css">
         <link rel="stylesheet" href="./css/style.css" />
         <link rel="stylesheet" href="./css/leaflet.css" />
-		<link rel="stylesheet" href="./css/font-awesome/css/font-awesome.min.css">
 
         <link href="https://fonts.googleapis.com/css?family=Rancho|Open+Sans:300italic,300,400,400italic,600,700,700italic" media="screen" rel="stylesheet" />
     </head>
     <body>
         <div class="container">
-            <header>
+            <!-- <header>
                 <h1> Jo Stöckholzer, come to my town! </h1>
-            </header>
+            </header> -->
             <div class="wrapper">
                 <div class="overlay-map">
                     <div class="vote-frame">
@@ -23,7 +23,9 @@
                             <p>
                                 Request a show to access exclusive content and early bird tickets.
                             </p>
-                            <i class="icon-lock"></i>
+                            <i class="icon-lock">
+								<p class="icon icon-lock-fill"></p>
+							</i>
                         </div>
                         <form>
                             <div class="fragment__vote-details">
@@ -31,31 +33,38 @@
                                 <input class="input-field" type="text" placeholder="Type in your town" />
                                 <h2>I'd pay up to</h2>
                                 <div class="selects-wrapper">
-                                    <select class="select-input" name="price">
-                                        <option value="option">10</option>
-                                        <option value="option">20</option>
-                                        <option value="option">30</option>
-                                        <option value="option">40</option>
-                                        <option value="option">50</option>
-                                        <option value="option">75</option>
-                                        <option value="option">100</option>
-                                    </select>
-                                    <select class="select-input" name="currency">
-                                        <option value="option">€</option>
-                                        <option value="option">£</option>
-                                        <option value="option">$</option>
-                                    </select>
+
+										<select name="price">
+	                                        <option value="option">10</option>
+	                                        <option value="option">20</option>
+	                                        <option value="option">30</option>
+	                                        <option value="option">40</option>
+	                                        <option value="option">50</option>
+	                                        <option value="option">75</option>
+	                                        <option value="option">100</option>
+	                                    </select>
+
+	                                    <select name="currency">
+	                                        <option value="option">€</option>
+	                                        <option value="option">£</option>
+	                                        <option value="option">$</option>
+	                                    </select>
+
+
                                 </div>
                             </div>
                             <div class="fragment__vote-buttons">
                                 <div class="buttons-wrapper">
                                     <button class="button button__facebook">
-                                        Request with Facebook
+                                        <span class="icon icon-facebook"></span>
+										Request with Facebook
                                     </button>
                                     <button class="button button__gplus">
+										<span class="icon icon-google"></span>
                                         Google
                                     </button>
                                     <button class="button button__instagram">
+										<span class="icon icon-instagram"></span>
                                         Instagram
                                     </button>
                                 </div>
@@ -71,7 +80,7 @@
                 </div>
             </div>
             <footer>
-                <img alt="Stagelink - Your fan-powered tour promoter" src="https://stagelink.s3.amazonaws.com/assets/icons/icon-sq-23669a8978b893d57378701bf2903508.png" width="50">
+                <span class="icon icon-stagelink_icon"></span>
                 <p>
                     © Stagelink GmbH 2016 - Made with in Berlin & New York
                 </p>

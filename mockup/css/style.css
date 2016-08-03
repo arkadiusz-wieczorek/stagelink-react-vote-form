@@ -97,14 +97,23 @@ h1{
 .fragment__vote-information .icon-lock{
 	position: relative;
 	display: block;
-	background-image: url("https://stagelink.s3.amazonaws.com/assets/icons/icon-lock-c40fccae17af875aa059399578c2b92e.png");
+	background-color: #2E2D30;
 	background-repeat: no-repeat;
 	background-size: cover;
 	height: 3.5rem;
 	width: 3.5rem;
 	margin: 0 auto;
 	top: 1.25rem;
+	border-radius: 50%;
+	border: 2px solid #fff;
 
+}
+
+.fragment__vote-information .icon-lock .icon{
+	font-size: 2.2rem;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 3.2rem;
 }
 
 
@@ -150,12 +159,12 @@ h1{
 }
 
 
-.fragment__vote-details .select-input{
+.fragment__vote-details select{
 	/*display: inline-block;*/
 	flex-grow: 1;
 	height: 3.5rem;
-	width: 4rem;
-	background: #f6f6f6 !important;
+	max-width: 50%;
+	/*background: #f6f6f6 !important;*/
 	border: 0;
 	padding: 0.6rem 3rem 0.6rem 0.6rem !important;
 	border-radius: 0;
@@ -166,11 +175,18 @@ h1{
 	color: #232323;
 	text-align: right;
 	overflow: visible;
+	background: url('../images/arrow.png') 85%/18% no-repeat #f6f6f6;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 }
 
-.fragment__vote-details .select-input:first-child{
+.fragment__vote-details select:first-child{
 	margin-right: 0.4rem;
 }
+
+
+
 .fragment__vote-buttons .buttons-wrapper{
 	width: 100%;
 }
@@ -183,6 +199,12 @@ h1{
 	border: 0;
 	box-shadow: none;
 	cursor: pointer;
+}
+
+.buttons-wrapper .icon{
+	font-size: 2.2rem;
+	padding-right: 0.75rem;
+	vertical-align: middle;
 }
 
 .buttons-wrapper .button__facebook{
@@ -247,13 +269,15 @@ footer{
 }
 
 
-footer img{
+footer span{
+	color: #F09600;
+	font-size: 2.5rem;
 	display: inline-block;
 	height: 3.5rem;
 	width: 3.5rem;
 	margin: 0 auto;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 }
 
 
@@ -275,7 +299,7 @@ footer img{
 	.vote-frame{
 		width: auto;
 		padding-top: 1rem;
-		
+
 	}
 
 	.fragment__vote-information{
