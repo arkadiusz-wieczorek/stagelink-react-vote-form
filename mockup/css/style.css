@@ -268,16 +268,15 @@ footer{
 	padding-bottom: 1rem;
 }
 
+footer .icon-stagelink_icon{
+	font-size: 2.2rem;
+	line-height: 4.4rem;
+}
+
 
 footer span{
 	color: #F09600;
-	font-size: 2.5rem;
-	display: inline-block;
-	height: 3.5rem;
-	width: 3.5rem;
-	margin: 0 auto;
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
+	vertical-align: middle;
 }
 
 
@@ -305,5 +304,14 @@ footer span{
 	.fragment__vote-information{
 		border-top-right-radius: 0;
 		border-top-left-radius: 0;
+	}
+
+	.fragment__vote-about p{
+		line-height: 1.5rem;
+	}
+
+	.fragment__vote-about, footer{
+		padding-left: 1rem;
+		padding-right: 1rem;
 	}
 }
