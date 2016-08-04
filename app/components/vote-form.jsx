@@ -19,14 +19,19 @@ class VoteForm extends React.Component{
             artist_id: this.props.artist_id,
 
             shadow_address: '',
-            address: "",
+            address: '',
             price: '',
             currency: '',
 
             referrer: document.referrer,
             request_url: window.location.href,
             submit: '',
-            signup_variant: ''
+            signup_variant: '',
+
+			empty_fields: {
+				address: true,
+				price: true
+			}
         }
         this.handleClick__facebook = this.handleClick__facebook.bind(this)
         this.handleClick__gplus = this.handleClick__gplus.bind(this)
@@ -49,7 +54,6 @@ class VoteForm extends React.Component{
 
 	beforeRequest(){
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
-
 		rq.getCoords(this.state.address)
 	}
 
@@ -142,10 +146,10 @@ class VoteForm extends React.Component{
 						</div>
 
 
-                        <div className="fragment__vote-buttons" onClick={this.beforeRequest}>
+                        <div className="fragment__vote-buttons">
 
-								{(this.state.address !== '' && this.state.currency !== '' && this.state.price !== '')
-									? <div className="buttons-wrapper">
+								{(this.state.address !== '' && this.state.shadow_address !== '' && this.state.currency !== '' && this.state.price !== '')
+									? <div className="buttons-wrapper" onClick={this.beforeRequest}>
 											<button
 												onClick={this.handleClick__facebook}
 												className={classNames('button', 'button__facebook')}>
