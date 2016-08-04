@@ -17,17 +17,16 @@ class InstagramButton extends React.Component {
 		console.log('response', response);
 	}
 
-	componentWillUnmount() {
-		// ee.emit('isVoted', true);
-	}
-
 	render(){
 		return(
 			<InstagramLogin
 				clientId={this.state.clientId}
-				buttonText={this.props.text}
 				cssClass={classNames('button', 'button__instagram')}
-				callback={this.responseInstagram}/>
+				callback={this.responseInstagram}>
+				<span className="icon icon-instagram"></span>
+				{this.props.text}
+
+			</InstagramLogin>
 		)
 	}
 }

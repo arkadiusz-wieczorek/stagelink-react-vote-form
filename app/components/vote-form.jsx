@@ -30,6 +30,7 @@ class VoteForm extends React.Component{
         }
         this.handleClick__facebook = this.handleClick__facebook.bind(this)
         this.handleClick__gplus = this.handleClick__gplus.bind(this)
+		this.handleEmptyFields = this.handleEmptyFields.bind(this)
 		this.beforeRequest = this.beforeRequest.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -94,6 +95,10 @@ class VoteForm extends React.Component{
 			})
     }
 
+	handleEmptyFields(){
+		console.log('empty fields')
+	}
+
     handleChange(param){
         return function(event){
             let obj = {};
@@ -120,7 +125,9 @@ class VoteForm extends React.Component{
 						<div className="fragment__vote-information">
 							<h2>Vote now!</h2>
 							<p>Request a show to access exclusive content and early bird tickets.</p>
-							<i className="icon-lock"></i>
+							<i className="icon-lock">
+								<p className="icon icon-lock-fill"></p>
+							</i>
 						</div>
 
 						<div className="fragment__vote-details">
@@ -136,21 +143,46 @@ class VoteForm extends React.Component{
 
 
                         <div className="fragment__vote-buttons" onClick={this.beforeRequest}>
-                            <div className="buttons-wrapper">
-                                <button
-                                    onClick={this.handleClick__facebook}
-                                    className={classNames('button', 'button__facebook')}>
-                                    Request with Facebook
-                                </button>
-                                <button
-                                    onClick={this.handleClick__gplus}
-                                    className={classNames('button', 'button__gplus')}>
-                                    Google
-                                </button>
 
-								<InstagramButton
-									text="Instagram"/>
-                            </div>
+								{(this.state.address !== '' && this.state.currency !== '' && this.state.price !== '')
+									? <div className="buttons-wrapper">
+											<button
+												onClick={this.handleClick__facebook}
+												className={classNames('button', 'button__facebook')}>
+												<span className="icon icon-facebook"></span>
+												Request with Facebook
+											</button>
+											<button
+												onClick={this.handleClick__gplus}
+												className={classNames('button', 'button__gplus')}>
+												<span className="icon icon-google"></span>
+												Google
+											</button>
+											<InstagramButton
+												onClick={this.test}
+												text="Instagram"/>
+									</div>
+									: <div className="buttons-wrapper">
+											<button
+												onClick={this.handleEmptyFields}
+												className={classNames('button', 'button__facebook')}>
+												<span className="icon icon-facebook"></span>
+												Request with Facebook
+											</button>
+											<button
+												onClick={this.handleEmptyFields}
+												className={classNames('button', 'button__gplus')}>
+												<span className="icon icon-google"></span>
+												Google
+											</button>
+											<button
+												onClick={this.handleEmptyFields}
+												className={classNames('button', 'button__instagram')}>
+												<span className="icon icon-instagram"></span>
+												Instagram
+											</button>
+									</div>
+								}
                         </div>
 
                     </div>

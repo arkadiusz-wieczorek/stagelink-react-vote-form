@@ -193,6 +193,15 @@ h1{
 	background: url('../images/arrow-down.png') 85%/18% no-repeat #f6f6f6;
 }
 
+option{
+	background: #f6f6f6;
+	border: 0;
+	box-shadow: 0 1px 1px #ccc;
+	font-size: 1.2rem;
+	height: 3.5rem;
+	color: #232323;
+}
+
 
 
 .fragment__vote-buttons .buttons-wrapper{
