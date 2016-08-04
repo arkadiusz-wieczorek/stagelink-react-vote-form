@@ -190,7 +190,7 @@ h1{
 }
 
 .fragment__vote-details select:active{
-	background-color: rgb(99, 34, 181);
+	background: url('../images/arrow-down.png') 85%/18% no-repeat #f6f6f6;
 }
 
 
