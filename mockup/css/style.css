@@ -24,6 +24,7 @@ summary {
 
 body{
 	font-family: 'Open Sans',sans-serif;
+	transition: all 400ms;
 }
 
 #map1, #map {
@@ -161,19 +162,21 @@ h1{
 
 .fragment__vote-details select{
 	/*display: inline-block;*/
+	font-family: 'Open Sans';
 	flex-grow: 1;
 	height: 3.5rem;
 	max-width: 50%;
 	/*background: #f6f6f6 !important;*/
 	border: 0;
-	padding: 0.6rem 3rem 0.6rem 0.6rem !important;
+	/*padding: 0.6rem 3rem 0.6rem 0.6rem !important;*/
+	padding-left: 1.8rem;
 	border-radius: 0;
 	box-shadow: none;
 	font-size: 1.2rem;
 	line-height: 3.5rem;
 	font-weight: 400;
 	color: #232323;
-	text-align: right;
+	text-align: left;
 	overflow: visible;
 	background: url('../images/arrow.png') 85%/18% no-repeat #f6f6f6;
 	-webkit-appearance: none;
@@ -181,8 +184,13 @@ h1{
 	appearance: none;
 }
 
+
 .fragment__vote-details select:first-child{
 	margin-right: 0.4rem;
+}
+
+.fragment__vote-details select:active{
+	background-color: rgb(99, 34, 181);
 }
 
 
