@@ -17,12 +17,15 @@ class VoteForm extends React.Component{
         this.state = {
             authResponse: {},
 
-            artist_id: this.props.artist_id,
+            artist_id: this.props.artist.id,
 
             shadow_address: '',
             address: '',
-            price: '',
-            currency: '',
+
+			demand: {
+				price: '',
+				currency: '',
+			},
 
             referrer: document.referrer,
             request_url: window.location.href,
@@ -140,7 +143,8 @@ class VoteForm extends React.Component{
 							<input className="input-field" placeholder="Type in your town" type="text" onChange={this.handleChange('address')}/>
 
 							<h2>I'd pay up to</h2>
-							<DemandSelect />
+							<DemandSelect
+								options={this.props.artist['vote-values']}/>
 						</div>
 
 

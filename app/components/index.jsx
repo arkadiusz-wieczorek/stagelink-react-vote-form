@@ -86,7 +86,7 @@ class VoteFrame extends React.Component {
 							artist_name={this.state.artist.name}/>
                         <VoteForm
 							changeAttributeValue={this.changeAttributeValue}
-							artist_id={this.state.artist.id} />
+							artist={this.state.artist} />
                         <VoteFooter />
                     </div>
 
