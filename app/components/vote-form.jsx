@@ -6,6 +6,7 @@ import ee from '../modules/event-emitter.js';
 import facebookHandler from '../modules/facebook-handler.js';
 import googleHandler from '../modules/google-handler.js';
 import InstagramButton from '../modules/instagram-handler.jsx';
+import DemandSelect from './demand-select.jsx';
 
 import urlParams from '../modules/params-handler.js';
 import rq from '../modules/request-wrapper.js';
@@ -139,10 +140,7 @@ class VoteForm extends React.Component{
 							<input className="input-field" placeholder="Type in your town" type="text" onChange={this.handleChange('address')}/>
 
 							<h2>I'd pay up to</h2>
-							<div className="selects-wrapper">
-								<select className="select-input" name="price"></select>
-								<select className="select-input" name="currency"></select>
-							</div>
+							<DemandSelect />
 						</div>
 
 
