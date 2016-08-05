@@ -4,7 +4,7 @@ import ee from './event-emitter.js';
 const ReqwestWrapper = new (function() {
 	this.sendVote = (data) => {
 		let url = 'http://localhost:3000/demands'
-
+		console.log('request', data)
 		reqwest({
 			url: url,
 			method: 'post',

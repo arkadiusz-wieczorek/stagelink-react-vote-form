@@ -3,7 +3,6 @@ import GoogleLogin from 'react-google-login';
 import classNames from 'classnames';
 import ee from '../modules/event-emitter.js';
 
-
 class GoogleButton extends React.Component{
 
 	constructor(props) {
@@ -17,7 +16,6 @@ class GoogleButton extends React.Component{
 	responseGoogle (googleUser) {
 		let id_token = googleUser.getAuthResponse().id_token;
 		console.log({accessToken: id_token});
-		//anything else you want to do(save to localStorage)...
 		let data = {
 			response: id_token,
 			logged: true
@@ -37,7 +35,6 @@ class GoogleButton extends React.Component{
 				</GoogleLogin>
 		);
 	}
-
 }
 
 export default GoogleButton;
