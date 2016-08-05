@@ -32,6 +32,7 @@ const googleHandler = new (function() {
 			fetch_basic_profile: true,
 			scope: 'profile email'
 		}).then((response) => {
+			console.log('eeeeeeeeeeeeeeeeeeeeee', response)
 			resolve({logged: true, response: response})
 		})
 	});

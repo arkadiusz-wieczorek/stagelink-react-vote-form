@@ -12,29 +12,29 @@
     <link href="https://fonts.googleapis.com/css?family=Rancho|Open+Sans:300italic,300,400,400italic,600,700,700italic" media="screen" rel="stylesheet" />
 </head>
   <body>
+	  <script>
+	  const artist = {
+		  'name': 'Die Lochis',
+		  'id': 'die-lochis',
+		  'vote-values': {
+			  'euro':{
+				  prices: [10, 20, 30],
+				  currency_symbol: '€'
+			  },
+			  'pound':{
+				  prices: [30, 50],
+				  currency_symbol: '£'
+			  },
+			  'dollar':{
+				  prices: [45, 65, 75],
+				  currency_symbol: '$'
+			  }
+		  }
+	  }
+	  </script>
     <div class="container">
 
     </div>
   </body>
-  <script>
-	const artist = {
-		'name': 'Die Lochis',
-		'id': 'die-lochis',
-		'vote-values': {
-			'euro':{
-				prices: [10, 20, 30],
-				currency_symbol: '€'
-			},
-			'pound':{
-				prices: [30, 50],
-				currency_symbol: '£'
-			},
-			'dollar':{
-				prices: [45, 65, 75],
-				currency_symbol: '$'
-			}
-		}
-	}
-  </script>
   <script name="react" src="./js/bundle.js"></script>
 </html>

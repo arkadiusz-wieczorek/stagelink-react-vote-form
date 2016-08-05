@@ -21,7 +21,7 @@ class DemandSelect extends React.Component{
 		}
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate() {
 		if (this.state.needToUpdatePrices) {
 			this.updatePrices(this.state.lastCurrency)
 		}

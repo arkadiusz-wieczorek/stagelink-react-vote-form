@@ -16,6 +16,7 @@
     "merge-objects": "^1.0.5",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
+    "react-google-login": "^2.1.2",
     "react-instagram-login": "0.0.3",
     "react-leaflet": "^0.12.1",
     "reqwest": "^2.0.5"

@@ -4,8 +4,10 @@ import reqwest from 'reqwest';
 
 import ee from '../modules/event-emitter.js';
 import facebookHandler from '../modules/facebook-handler.js';
-import googleHandler from '../modules/google-handler.js';
+// import googleHandler from '../modules/google-handler.js';
 import InstagramButton from '../modules/instagram-handler.jsx';
+import GoogleButton from '../modules/google-handler.jsx';
+
 import DemandSelect from './demand-select.jsx';
 
 import urlParams from '../modules/params-handler.js';
@@ -19,44 +21,56 @@ class VoteForm extends React.Component{
 
             artist_id: this.props.artist.id,
 
-            shadow_address: '',
-            address: '',
+            shadow_address: 's',
+            address: 's',
 
-			demand: {
-				price: '',
-				currency: '',
-			},
+			demand: {},
 
             referrer: document.referrer,
             request_url: window.location.href,
             submit: '',
             signup_variant: '',
 
-			empty_fields: {
-				address: true,
-				price: true
-			}
         }
         this.handleClick__facebook = this.handleClick__facebook.bind(this)
-        this.handleClick__gplus = this.handleClick__gplus.bind(this)
 		this.handleEmptyFields = this.handleEmptyFields.bind(this)
-		this.beforeRequest = this.beforeRequest.bind(this)
+		this.storeStateBeforeRequest = this.storeStateBeforeRequest.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
     componentWillMount(){
         facebookHandler.loadSdk();
-        googleHandler.loadSdk();
     }
     componentDidMount() {
         facebookHandler.init();
+
+
+		// google handler
+		let self = this;
+
+		ee.on('googleResponse', function(data){
+			self.setState({
+				authResponse: data,
+				submit: 'google',
+				signup_variant: 'google'
+			})
+			rq.sendVote(self.state)
+
+			ee.emit('isVoted', data.logged)
+		})
     }
 
 	componentWillUnmount() {
+		this.setState({
+			demand: this.refs.demand.getDemand()
+		})
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
 	}
 
-	beforeRequest(){
+	storeStateBeforeRequest(){
+		this.setState({
+			demand: this.refs.demand.getDemand()
+		})
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
 		rq.getCoords(this.state.address)
 	}
@@ -81,30 +95,11 @@ class VoteForm extends React.Component{
             })
     }
 
-    handleClick__gplus(){
-		let self = this;
-
-        googleHandler.init()
-            .then(() => {
-				googleHandler.login()
-					.then((data) => {
-						self.setState({
-							authResponse: data.response,
-							submit: 'google',
-							signup_variant: 'google'
-						})
-						rq.sendVote(self.state)
-
-						ee.emit('isVoted', data.logged)
-					})
-					.catch(function(err) {
-						console.log('user_error', err);
-					})
-			})
-    }
 
 	handleEmptyFields(){
 		console.log('empty fields')
+
+		console.log(this.refs.demand.getDemand())
 	}
 
     handleChange(param){
@@ -144,28 +139,25 @@ class VoteForm extends React.Component{
 
 							<h2>I'd pay up to</h2>
 							<DemandSelect
-								options={this.props.artist['vote-values']}/>
+								options={this.props.artist['vote-values']}
+								ref="demand"/>
 						</div>
 
 
                         <div className="fragment__vote-buttons">
 
-								{(this.state.address !== '' && this.state.shadow_address !== '' && this.state.currency !== '' && this.state.price !== '')
-									? <div className="buttons-wrapper" onClick={this.beforeRequest}>
+								{(this.state.address !== '' && this.state.shadow_address !== '')
+									? <div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
 											<button
 												onClick={this.handleClick__facebook}
 												className={classNames('button', 'button__facebook')}>
 												<span className="icon icon-facebook"></span>
 												Request with Facebook
 											</button>
-											<button
-												onClick={this.handleClick__gplus}
-												className={classNames('button', 'button__gplus')}>
-												<span className="icon icon-google"></span>
-												Google
-											</button>
+											<GoogleButton
+												text="Google"/>
+
 											<InstagramButton
-												onClick={this.test}
 												text="Instagram"/>
 									</div>
 									: <div className="buttons-wrapper">
@@ -204,3 +196,9 @@ class VoteForm extends React.Component{
 }
 
 export default VoteForm
+// <button
+// 	onClick={this.handleClick__gplus}
+// 	className={classNames('button', 'button__gplus')}>
+// 	<span className="icon icon-google"></span>
+// 	Google
+// </button>
