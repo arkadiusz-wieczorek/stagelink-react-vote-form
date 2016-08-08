@@ -161,7 +161,7 @@ h1{
 
 [data-tooltip]:before {
 	position: absolute;
-	bottom: 110%;
+	bottom: 109%;
 	left: 0;
 	right: 0;
 	margin-left: auto;
