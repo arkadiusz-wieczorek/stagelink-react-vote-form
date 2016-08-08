@@ -14,10 +14,11 @@ class GoogleButton extends React.Component{
 	}
 
 	responseGoogle(googleUser) {
-		let id_token = googleUser.getAuthResponse().id_token;
-		console.log({accessToken: id_token});
+		// id_token
+		let response = googleUser.getAuthResponse();
+		console.log({accessToken: response});
 		let data = {
-			response: id_token,
+			response: response,
 			logged: true
 		}
 		ee.emit('googleResponse', data)
