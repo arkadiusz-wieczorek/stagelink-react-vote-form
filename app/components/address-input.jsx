@@ -1,17 +1,30 @@
 import React from 'react';
+import ee from '../modules/event-emitter.js';
 
 class AddressInput extends React.Component{
     constructor(props){
         super(props)
         this.state = {
 			inputValue: "",
-			emptyField: this.props.emptyField
+			emptyField: this.props.emptyField,
+			emitChange: false
 		}
 		this.handleChange = this.handleChange.bind(this)
 	}
 
 	componentDidMount() {
 
+	}
+
+	componentDidUpdate(nextProps, nextState) {
+		if (this.state.inputValue.length > 0 && this.state.emitChange === true ) {
+			console.log('cdu')
+			// false for emptyfields by emit
+			this.setState({
+				emitChange: false
+			})
+			ee.emit('re-renderButtons', true)
+		}
 	}
 
 	searchAddress(){
@@ -24,11 +37,16 @@ class AddressInput extends React.Component{
 
 	handleChange(event){
 		console.log('value input', event.target.value)
+		if (this.state.emitChange === false) {
+			this.setState({
+				emitChange: true
+			})
+		}
 		this.setState({
 			inputValue: event.target.value
 		})
-	}
 
+	}
 
     render () {
         return (

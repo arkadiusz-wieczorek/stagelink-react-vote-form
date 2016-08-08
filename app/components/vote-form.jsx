@@ -47,19 +47,28 @@ class VoteForm extends React.Component{
     }
     componentDidMount() {
         facebookHandler.init();
-		this.googleResponse();
+		let self = this;
+
+		self.googleResponse();
+
+		ee.on('re-renderButtons', function(data){
+			console.log('re-renderButtons', data)
+			self.setState({
+				emptyField: data
+			})
+		})
     }
 
 	componentWillUnmount() {
 		this.setState({
-			demand: this.refs.demand.getDemand()
+			demand: this.refs.demand.getValue()
 		})
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
 	}
 
 	storeStateBeforeRequest(){
 		this.setState({
-			demand: this.refs.demand.getDemand()
+			demand: this.refs.demand.getValue()
 		})
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
 		rq.getCoords(this.state.address)
@@ -112,7 +121,9 @@ class VoteForm extends React.Component{
 			})
 		} else {
 			this.setState({
-				emptyField: false
+				emptyField: false,
+				address: address,
+				shadow_address: address
 			})
 		}
 	}
@@ -127,7 +138,7 @@ class VoteForm extends React.Component{
 
     render () {
         return (
-            <div className="wrapper">
+            <div className="wrapper" ref="form">
                 <div className="overlay-map">
                     <div className="vote-frame">
 						<input name="authenticity_token"
@@ -163,7 +174,7 @@ class VoteForm extends React.Component{
 
                         <div className="fragment__vote-buttons">
 
-								{(this.state.address !== '' && this.state.shadow_address !== '')
+								{(this.state.emptyField !== false)
 									? <div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
 											<button
 												onClick={this.facebookResponse}
