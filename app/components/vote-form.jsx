@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import reqwest from 'reqwest';
 
 import ee from '../modules/event-emitter.js';
+
 import facebookHandler from '../modules/facebook-handler.js';
-// import googleHandler from '../modules/google-handler.js';
 import InstagramButton from '../modules/instagram-handler.jsx';
 import GoogleButton from '../modules/google-handler.jsx';
 
@@ -32,7 +32,8 @@ class VoteForm extends React.Component{
             signup_variant: '',
 
         }
-        this.handleClick__facebook = this.handleClick__facebook.bind(this)
+        this.facebookResponse = this.facebookResponse.bind(this)
+		this.googleResponse = this.googleResponse.bind(this)
 		this.handleEmptyFields = this.handleEmptyFields.bind(this)
 		this.storeStateBeforeRequest = this.storeStateBeforeRequest.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -43,21 +44,7 @@ class VoteForm extends React.Component{
     }
     componentDidMount() {
         facebookHandler.init();
-
-
-		// google handler
-		let self = this;
-
-		ee.on('googleResponse', function(data){
-			self.setState({
-				authResponse: data,
-				submit: 'google',
-				signup_variant: 'google'
-			})
-			rq.sendVote(self.state)
-
-			ee.emit('isVoted', data.logged)
-		})
+		this.googleResponse();
     }
 
 	componentWillUnmount() {
@@ -75,8 +62,22 @@ class VoteForm extends React.Component{
 		rq.getCoords(this.state.address)
 	}
 
+	googleResponse(){
+		let self = this;
 
-    handleClick__facebook() {
+		ee.on('googleResponse', function(data){
+			self.setState({
+				authResponse: data,
+				submit: 'google',
+				signup_variant: 'google'
+			})
+			rq.sendVote(self.state)
+
+			ee.emit('isVoted', data.logged)
+		})
+	}
+
+    facebookResponse() {
         let self = this;
 
         facebookHandler.login()
@@ -98,7 +99,6 @@ class VoteForm extends React.Component{
 
 	handleEmptyFields(){
 		console.log('empty fields')
-
 		console.log(this.refs.demand.getDemand())
 	}
 
@@ -135,7 +135,11 @@ class VoteForm extends React.Component{
 
 						<div className="fragment__vote-details">
 							<h2>Please come to</h2>
-							<input className="input-field" placeholder="Type in your town" type="text" onChange={this.handleChange('address')}/>
+							<input
+								className="input-field"
+								placeholder="Type in your town"
+								type="text"
+								onChange={this.handleChange('address')}/>
 
 							<h2>I'd pay up to</h2>
 							<DemandSelect
@@ -149,7 +153,7 @@ class VoteForm extends React.Component{
 								{(this.state.address !== '' && this.state.shadow_address !== '')
 									? <div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
 											<button
-												onClick={this.handleClick__facebook}
+												onClick={this.facebookResponse}
 												className={classNames('button', 'button__facebook')}>
 												<span className="icon icon-facebook"></span>
 												Request with Facebook
@@ -196,9 +200,3 @@ class VoteForm extends React.Component{
 }
 
 export default VoteForm
-// <button
-// 	onClick={this.handleClick__gplus}
-// 	className={classNames('button', 'button__gplus')}>
-// 	<span className="icon icon-google"></span>
-// 	Google
-// </button>

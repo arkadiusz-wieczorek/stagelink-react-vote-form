@@ -208,7 +208,7 @@ option{
 	width: 100%;
 }
 
-.fragment__vote-buttons .button {
+.fragment__vote-buttons .button,  {
 	height: 4.5rem;
 	/*display:inline-block;*/
 	font-size: 1.25rem;
@@ -217,6 +217,51 @@ option{
 	box-shadow: none;
 	cursor: pointer;
 }
+
+.buttons-wrapper .small{
+	height: 4.5rem;
+	/*display:inline-block;*/
+	font-size: 1.25rem;
+	color: #fff;
+	border: 0;
+	box-shadow: none;
+	cursor: pointer;
+}
+
+.kep-login-facebook {
+  /*display                : inline-block;*/
+  padding                : calc(.34435vw + 13.38843px) calc(.34435vw + 18.38843px);
+  color                  : #fff;
+  border                 : calc(.06887vw + .67769px) solid #4c69ba;
+  background-color       : #4c69ba;
+  text-decoration        : none;
+  text-transform         : uppercase;
+  font-family            : Helvetica,
+                           sans-serif;
+  font-size              : calc(.27548vw + 12.71074px);
+  font-weight            : 700;
+  -webkit-font-smoothing : antialiased;
+  transition             : background-color .3s,
+                           border-color .3s;
+  cursor                 : pointer;
+}
+
+.kep-login-facebook.small {
+  padding : calc(.34435vw + 3.38843px) calc(.34435vw + 8.38843px);
+}
+
+.kep-login-facebook.medium {
+  padding : calc(.34435vw + 8.38843px) calc(.34435vw + 13.38843px);
+}
+
+.kep-login-facebook.metro {
+  border-radius : 0;
+}
+
+.kep-login-facebook .fa {
+  margin-right : calc(.34435vw + 3.38843px);
+}
+
 
 .buttons-wrapper .icon{
 	font-size: 2.2rem;
@@ -234,8 +279,8 @@ option{
 
 .buttons-wrapper .button__facebook:hover{
 	border-bottom: 4px solid #314a81;
-
 }
+
 
 .buttons-wrapper .button__gplus{
 	flex-grow: 1;

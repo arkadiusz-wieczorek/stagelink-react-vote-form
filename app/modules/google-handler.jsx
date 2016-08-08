@@ -13,23 +13,22 @@ class GoogleButton extends React.Component{
 		this.responseGoogle = this.responseGoogle.bind(this)
 	}
 
-	responseGoogle (googleUser) {
+	responseGoogle(googleUser) {
 		let id_token = googleUser.getAuthResponse().id_token;
 		console.log({accessToken: id_token});
 		let data = {
 			response: id_token,
 			logged: true
 		}
-		ee.emit('googleResponse', id_token)
+		ee.emit('googleResponse', data)
 	}
 
 	render () {
-		console.log('ekhm')
 		return (
-				<GoogleLogin clientId={this.state.clientId}
-					callback={this.responseGoogle}
+				<GoogleLogin
+					clientId={this.state.clientId}
 					cssClass={classNames('button', 'button__gplus')}
-					buttonText="">
+					callback={this.responseGoogle}>
 					<span className="icon icon-google"></span>
 					{this.props.text}
 				</GoogleLogin>
