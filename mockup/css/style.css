@@ -149,6 +149,54 @@ h1{
 	font-weight: 400;
 }
 
+.fragment__vote-details input.input-field__error[type="text"]{
+	border: 3px solid #ff0000 !important;
+}
+
+
+[data-tooltip] {
+  position: relative;
+  /*z-index: 2;*/
+}
+
+[data-tooltip]:before {
+	position: absolute;
+	bottom: 110%;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0.5rem;
+	width: 10rem;
+	background-color: #000;
+	background-color: hsla(0, 0%, 20%, 0.9);
+	color: #fff;
+	content: attr(data-tooltip);
+	text-align: center;
+	font-size: 1rem;
+	line-height: 1.5rem;
+}
+
+/* Triangle for tooltip */
+[data-tooltip]:after {
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -5px;
+	width: 0;
+	border-top: 5px solid #000;
+	border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+	content: " ";
+	font-size: 0;
+	line-height: 0;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
 
 .fragment__vote-details .selects-wrapper, .fragment__vote-buttons .buttons-wrapper{
 	width: 13.5rem;

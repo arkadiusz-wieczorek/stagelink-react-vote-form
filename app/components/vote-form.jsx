@@ -8,6 +8,7 @@ import facebookHandler from '../modules/facebook-handler.js';
 import InstagramButton from '../modules/instagram-handler.jsx';
 import GoogleButton from '../modules/google-handler.jsx';
 
+import AddressInput from './address-input.jsx';
 import DemandSelect from './demand-select.jsx';
 
 import urlParams from '../modules/params-handler.js';
@@ -21,8 +22,8 @@ class VoteForm extends React.Component{
 
             artist_id: this.props.artist.id,
 
-            shadow_address: 's',
-            address: 's',
+            shadow_address: '',
+            address: '',
 
 			demand: {},
 
@@ -135,11 +136,7 @@ class VoteForm extends React.Component{
 
 						<div className="fragment__vote-details">
 							<h2>Please come to</h2>
-							<input
-								className="input-field"
-								placeholder="Type in your town"
-								type="text"
-								onChange={this.handleChange('address')}/>
+							<AddressInput/>
 
 							<h2>I'd pay up to</h2>
 							<DemandSelect
