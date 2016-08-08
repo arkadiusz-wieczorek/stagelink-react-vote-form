@@ -32,6 +32,8 @@ class VoteForm extends React.Component{
             submit: '',
             signup_variant: '',
 
+			emptyField: false
+
         }
         this.facebookResponse = this.facebookResponse.bind(this)
 		this.googleResponse = this.googleResponse.bind(this)
@@ -100,7 +102,19 @@ class VoteForm extends React.Component{
 
 	handleEmptyFields(){
 		console.log('empty fields')
-		console.log(this.refs.demand.getDemand())
+		console.log(this.refs.demand.getValue())
+		console.log(this.refs.address.getValue())
+		let address = this.refs.address.getValue()
+
+		if (address === '' || address === undefined || address === null) {
+			this.setState({
+				emptyField: true
+			})
+		} else {
+			this.setState({
+				emptyField: false
+			})
+		}
 	}
 
     handleChange(param){
@@ -136,7 +150,9 @@ class VoteForm extends React.Component{
 
 						<div className="fragment__vote-details">
 							<h2>Please come to</h2>
-							<AddressInput/>
+							<AddressInput
+								emptyField={this.state.emptyField}
+								ref="address"/>
 
 							<h2>I'd pay up to</h2>
 							<DemandSelect

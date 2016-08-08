@@ -73,7 +73,7 @@ class DemandSelect extends React.Component{
 		this.refs.price.selectedIndex = 0;
 	}
 
-	getDemand(){
+	getValue(){
 		let price = this.refs.price.value;
 		let currency = this.refs.currency.value;
 		return {price: price, currency: currency}
