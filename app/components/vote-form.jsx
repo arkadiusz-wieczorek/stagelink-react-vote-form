@@ -3,12 +3,12 @@ import classNames from 'classnames';
 import reqwest from 'reqwest';
 
 import ee from '../modules/event-emitter.js';
+//
+// import facebookHandler from '../modules/facebook-handler.js';
+// import InstagramButton from '../modules/instagram-handler.jsx';
+// import GoogleButton from '../modules/google-handler.jsx';
 
-import facebookHandler from '../modules/facebook-handler.js';
-import InstagramButton from '../modules/instagram-handler.jsx';
-import GoogleButton from '../modules/google-handler.jsx';
-
-import AddressInput from './address-input.jsx';
+// import AddressInput from './address-input.jsx';
 import DemandSelect from './demand-select.jsx';
 
 import urlParams from '../modules/params-handler.js';
@@ -24,6 +24,7 @@ class VoteForm extends React.Component{
 
             shadow_address: '',
             address: '',
+			inputValue: '',
 
 			demand: {},
 
@@ -40,13 +41,15 @@ class VoteForm extends React.Component{
 		this.handleEmptyFields = this.handleEmptyFields.bind(this)
 		this.storeStateBeforeRequest = this.storeStateBeforeRequest.bind(this)
         this.handleChange = this.handleChange.bind(this)
+		this.hasValue = this.hasValue.bind(this)
+		this.setNewValue = this.setNewValue.bind(this)
     }
 
     componentWillMount(){
-        facebookHandler.loadSdk();
+        // facebookHandler.loadSdk();
     }
     componentDidMount() {
-        facebookHandler.init();
+        // facebookHandler.init();
 		let self = this;
 
 		self.googleResponse();
@@ -58,6 +61,16 @@ class VoteForm extends React.Component{
 			})
 		})
     }
+
+	componentDidUpdate	(prevProps, prevState) {
+		console.log('this.state', this.state)
+		console.log('prevState', prevState)
+
+		// to do
+		if (this.state.emptyField !== prevState.emptyField) {
+			this.refs.address.focus()
+		}
+	}
 
 	componentWillUnmount() {
 		this.setState({
@@ -77,55 +90,57 @@ class VoteForm extends React.Component{
 	googleResponse(){
 		let self = this;
 
-		ee.on('googleResponse', function(data){
-			self.setState({
-				authResponse: data,
-				submit: 'google',
-				signup_variant: 'google'
-			})
-			rq.sendVote(self.state)
-
-			ee.emit('isVoted', data.logged)
-		})
+		// ee.on('googleResponse', function(data){
+		// 	self.setState({
+		// 		authResponse: data,
+		// 		submit: 'google',
+		// 		signup_variant: 'google'
+		// 	})
+		// 	rq.sendVote(self.state)
+		//
+		// 	ee.emit('isVoted', data.logged)
+		// })
 	}
 
     facebookResponse() {
         let self = this;
 
-        facebookHandler.login()
-            .then((data) => {
-                self.setState({
-                    authResponse: data.response.authResponse,
-                    submit: 'facebook',
-                    signup_variant: 'facebook'
-                })
-				rq.sendVote(self.state)
-
-                ee.emit('isVoted', data.logged);
-            })
-            .catch(function(err) {
-                console.log('user_error', err);
-            })
+        // facebookHandler.login()
+        //     .then((data) => {
+        //         self.setState({
+        //             authResponse: data.response.authResponse,
+        //             submit: 'facebook',
+        //             signup_variant: 'facebook'
+        //         })
+		// 		rq.sendVote(self.state)
+		//
+        //         ee.emit('isVoted', data.logged);
+        //     })
+        //     .catch(function(err) {
+        //         console.log('user_error', err);
+        //     })
     }
 
 
 	handleEmptyFields(){
 		console.log('empty fields')
 		console.log(this.refs.demand.getValue())
-		console.log(this.refs.address.getValue())
-		let address = this.refs.address.getValue()
 
-		if (address === '' || address === undefined || address === null) {
+		let address = this.refs.address.value;
+
+		if (address === '') {
 			this.setState({
 				emptyField: true
 			})
 		} else {
 			this.setState({
 				emptyField: false,
-				address: address,
-				shadow_address: address
 			})
 		}
+	}
+
+	hasValue(){
+		console.log('works')
 	}
 
     handleChange(param){
@@ -135,6 +150,16 @@ class VoteForm extends React.Component{
             this.setState(obj);
         }.bind(this);
     }
+
+	setNewValue(event){
+		console.log('ekhmm new value')
+		this.setState({
+			emptyField: false,
+			address: event.target.value,
+			shadow_address: event.target.value,
+			inputValue: event.target.value
+		})
+	}
 
     render () {
         return (
@@ -161,9 +186,26 @@ class VoteForm extends React.Component{
 
 						<div className="fragment__vote-details">
 							<h2>Please come to</h2>
-							<AddressInput
-								emptyField={this.state.emptyField}
-								ref="address"/>
+								<div>
+									{(this.state.emptyField !== true)
+										? <input
+											className="input-field"
+											placeholder="Type in your town"
+											ref="address"
+											type="text"
+											value={this.state.inputValue}
+											onChange={this.setNewValue}/>
+										: <div data-tooltip="Where should the show take place?">
+											<input
+											className="input-field input-field__error"
+											type="text"
+											ref="address"
+											value={this.state.inputValue}
+											placeholder="Type in your town"
+											onChange={this.setNewValue} />
+										</div>
+									}
+								</div>
 
 							<h2>I'd pay up to</h2>
 							<DemandSelect
@@ -174,19 +216,26 @@ class VoteForm extends React.Component{
 
                         <div className="fragment__vote-buttons">
 
-								{(this.state.emptyField !== false)
+								{(this.state.inputValue !== "")
 									? <div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
 											<button
-												onClick={this.facebookResponse}
+												onClick={this.hasValue}
 												className={classNames('button', 'button__facebook')}>
 												<span className="icon icon-facebook"></span>
 												Request with Facebook
 											</button>
-											<GoogleButton
-												text="Google"/>
-
-											<InstagramButton
-												text="Instagram"/>
+											<button
+												onClick={this.hasValue}
+												className={classNames('button', 'button__gplus')}>
+												<span className="icon icon-google"></span>
+												Google
+											</button>
+											<button
+												onClick={this.hasValue}
+												className={classNames('button', 'button__instagram')}>
+												<span className="icon icon-instagram"></span>
+												Instagram
+											</button>
 									</div>
 									: <div className="buttons-wrapper">
 											<button
