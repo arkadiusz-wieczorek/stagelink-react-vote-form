@@ -62,15 +62,15 @@ class VoteForm extends React.Component{
 		})
     }
 
-	componentDidUpdate	(prevProps, prevState) {
-		console.log('this.state', this.state)
-		console.log('prevState', prevState)
-
-		// to do
-		if (this.state.emptyField !== prevState.emptyField) {
-			this.refs.address.focus()
-		}
-	}
+	// componentDidUpdate	(prevProps, prevState) {
+	// 	console.log('this.state', this.state)
+	// 	console.log('prevState', prevState)
+	//
+	// 	// to do
+	// 	if (this.state.emptyField !== prevState.emptyField) {
+	// 		this.refs.address.focus()
+	// 	}
+	// }
 
 	componentWillUnmount() {
 		this.setState({
@@ -163,6 +163,9 @@ class VoteForm extends React.Component{
 
     render () {
         return (
+
+
+
             <div className="wrapper" ref="form">
                 <div className="overlay-map">
                     <div className="vote-frame">
@@ -188,13 +191,15 @@ class VoteForm extends React.Component{
 							<h2>Please come to</h2>
 								<div>
 									{(this.state.emptyField !== true)
-										? <input
-											className="input-field"
-											placeholder="Type in your town"
-											ref="address"
-											type="text"
-											value={this.state.inputValue}
-											onChange={this.setNewValue}/>
+										? <div>
+											<input
+												className="input-field"
+												placeholder="Type in your town"
+												ref="address"
+												type="text"
+												value={this.state.inputValue}
+												onChange={this.setNewValue}/>
+										</div>
 										: <div data-tooltip="Where should the show take place?">
 											<input
 											className="input-field input-field__error"
