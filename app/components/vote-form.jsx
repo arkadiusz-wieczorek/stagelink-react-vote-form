@@ -8,7 +8,6 @@ import facebookHandler from '../modules/facebook-handler.js';
 import InstagramButton from '../modules/instagram-handler.jsx';
 import GoogleButton from '../modules/google-handler.jsx';
 
-import AddressInput from './address-input.jsx';
 import DemandSelect from './demand-select.jsx';
 
 import urlParams from '../modules/params-handler.js';
