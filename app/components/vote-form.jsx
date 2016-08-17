@@ -34,27 +34,15 @@ class VoteForm extends React.Component{
             request_url: window.location.href,
             submit: '',
             signup_variant: ''
-
         }
 
         this.facebookResponse = this.facebookResponse.bind(this)
 		this.googleResponse = this.googleResponse.bind(this)
-
-		// this.handleEmptyFields = this.handleEmptyFields.bind(this)
-
-
 		this.storeStateBeforeRequest = this.storeStateBeforeRequest.bind(this)
-
-
-		// this.handleChange = this.handleChange.bind(this)
 		this.setNewValue = this.setNewValue.bind(this)
+		this.inputAddressHasValue = this.inputAddressHasValue.bind(this)
+		this.handleEmptyInputField = this.handleEmptyInputField.bind(this)
 
-		this.withValue = this.withValue.bind(this)
-		this.withoutValue = this.withoutValue.bind(this)
-
-
-
-		// this.hasValue = this.hasValue.bind(this)
     }
 
     componentWillMount(){
@@ -63,24 +51,8 @@ class VoteForm extends React.Component{
     componentDidMount() {
         facebookHandler.init();
 		let self = this;
-
 		self.googleResponse();
-		// this.refs.address.focus()
     }
-
-	// componentDidUpdate	(prevProps, prevState) {
-	// // console.log('this.state', this.state)
-	// // console.log('prevState', prevState)
-	//
-	// console.log('this.state.emptyField', this.state.emptyField);
-	// console.log('prevState.emptyField', prevState.emptyField);
-	// // // to do
-	// // 	if (this.state.emptyField !== prevState.emptyField) {
-	// // 		console.log('this.state.emptyField', this.state.emptyField);
-	// // 		console.log('prevState.emptyField', prevState.emptyField);
-	// // 	}
-	// //
-	// }
 
 	componentWillUnmount() {
 		this.setState({
@@ -131,47 +103,6 @@ class VoteForm extends React.Component{
             })
     }
 
-
-	// handleEmptyFields(){
-	// 	console.log('empty fields')
-	// 	// console.log(this.refs.demand.getValue())
-	// 	// console.log(this.refs.address.getValue())
-	// 	let address = this.refs.address.value
-	// 	console.log('address', address);
-	//
-	// 	if (address === '' || address === undefined || address === null) {
-	// 		this.setState({
-	// 			emptyField: true
-	// 		})
-	// 	} else {
-	// 		this.setState({
-	// 			emptyField: false,
-	// 			address: address,
-	// 			shadow_address: address
-	// 		})
-	// 	}
-	// }
-	//
-	// hasValue(){
-	// 	console.log('it works');
-	// }
-
-	// setNewValue(event){
-	// 	// if (event.target.value === "" && this.state.inputValue.length === 0) {
-	// 	// 	this.setState({
-	// 	// 		emptyField: true
-	// 	// 	})
-	// 	// } else {
-	// 	// 	this.setState({
-	// 	// 		emptyField: false,
-	// 	// 		address: event.target.value,
-	// 	// 		shadow_address: event.target.value,
-	// 	// 		inputValue: event.target.value
-	// 	// 	})
-	// 	//
-	// 	// }
-	// }
-
 	setNewValue(event){
 		if (event.target.value === "") {
 			this.setState({
@@ -188,34 +119,21 @@ class VoteForm extends React.Component{
 				inputValue: event.target.value
 			})
 		}
-
 	}
 
-	withValue(){
+	inputAddressHasValue(){
 		console.log('has value');
 	}
 
-	withoutValue(){
+	handleEmptyInputField(){
 		console.log('no value');
 		this.setState({
 			emptyField: true
 		})
-
 	}
-
-    // handleChange(param){
-    //     return function(event){
-    //         let obj = {};
-    //         obj[param] = event.target.value
-    //         this.setState(obj);
-    //     }.bind(this);
-    // }
 
 	render () {
            return (
-
-
-
                <div className="wrapper" ref="form">
                    <div className="overlay-map">
                        <div className="vote-frame">
@@ -273,43 +191,35 @@ class VoteForm extends React.Component{
 
    								{(this.state.inputValue !== "")
    									? <div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
+										<button
+											onClick={this.facebookResponse}
+											className={classNames('button', 'button__facebook')}>
+											<span className="icon icon-facebook"></span>
+											Request with Facebook
+										</button>
+										<GoogleButton
+											text="Google"/>
+										<InstagramButton
+											text="Instagram"/>
+   									</div>
+   									: <div className="buttons-wrapper">
    											<button
-   												onClick={this.withValue}
+   												onClick={this.handleEmptyInputField}
    												className={classNames('button', 'button__facebook')}>
    												<span className="icon icon-facebook"></span>
-   												Request with Facebook
+												Request with Facebook
    											</button>
    											<button
-   												onClick={this.withValue}
+   												onClick={this.handleEmptyInputField}
    												className={classNames('button', 'button__gplus')}>
    												<span className="icon icon-google"></span>
    												Google
    											</button>
    											<button
-   												onClick={this.withValue}
+   												onClick={this.handleEmptyInputField}
    												className={classNames('button', 'button__instagram')}>
    												<span className="icon icon-instagram"></span>
    												Instagram
-   											</button>
-   									</div>
-   									: <div className="buttons-wrapper">
-   											<button
-   												onClick={this.withoutValue}
-   												className={classNames('button', 'button__facebook')}>
-   												<span className="icon icon-facebook"></span>
-												lack
-   											</button>
-   											<button
-   												onClick={this.withoutValue}
-   												className={classNames('button', 'button__gplus')}>
-   												<span className="icon icon-google"></span>
-   												lack
-   											</button>
-   											<button
-   												onClick={this.withoutValue}
-   												className={classNames('button', 'button__instagram')}>
-   												<span className="icon icon-instagram"></span>
-   												lack
    											</button>
    									</div>
    								}
