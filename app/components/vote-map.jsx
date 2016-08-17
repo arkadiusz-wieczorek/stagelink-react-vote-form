@@ -16,12 +16,12 @@ class Lmap extends React.Component{
             <Map center={this.props.position} zoom={this.state.zoom}>
                 <TileLayer
                     url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="http://stagelink.com">Powered by Stagelink.com</a>'/>
                 <Marker
 					position={this.props.position}
 					icon={this.state.microphoneTag}>
 	                    <Popup>
-	                        <span> Your vote is here! </span>
+	                        <p> Your vote is here! </p>
 	                    </Popup>
                 </Marker>
             </Map>
