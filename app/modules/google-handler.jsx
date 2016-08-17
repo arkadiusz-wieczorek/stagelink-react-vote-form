@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import ee from '../modules/event-emitter.js';
 
 class GoogleButton extends React.Component{
-
 	constructor(props) {
 		super(props)
 		this.state = {

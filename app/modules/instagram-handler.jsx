@@ -4,7 +4,6 @@ import InstagramLogin from 'react-instagram-login';
 import classNames from 'classnames';
 import ee from '../modules/event-emitter.js';
 
-
 class InstagramButton extends React.Component {
     constructor(props) {
         super(props)

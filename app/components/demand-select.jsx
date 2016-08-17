@@ -86,18 +86,18 @@ class DemandSelect extends React.Component{
 					className="select-input"
 					name="price"
 					ref="price">
-					{this.state.prices}
+						{this.state.prices}
 				</select>
 				<select
 					className="select-input"
 					name="currency"
 					ref="currency"
 					onChange={this.handleChangeCurrency}>
-					{this.state.currencies}
+						{this.state.currencies}
 				</select>
 			</div>
         )
     }
 }
 
-export default DemandSelect
+export default DemandSelect;

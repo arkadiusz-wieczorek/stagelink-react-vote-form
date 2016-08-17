@@ -81,18 +81,17 @@ class VoteFrame extends React.Component {
             <div>
                 {(this.state.voted === false)
                     ?
-                    <div className="vote-box">
-                        <VoteHeader
-							artist_name={this.state.artist.name}/>
-                        <VoteForm
-							changeAttributeValue={this.changeAttributeValue}
-							artist={this.state.artist} />
-                        <VoteFooter />
-                    </div>
-
+	                    <div className="vote-box">
+	                        <VoteHeader
+								artist_name={this.state.artist.name}/>
+	                        <VoteForm
+								changeAttributeValue={this.changeAttributeValue}
+								artist={this.state.artist} />
+	                        <VoteFooter />
+	                    </div>
                     :
-                    <Map
-                        position={[this.state.coords.lat, this.state.coords.lng]}/>
+	                    <Map
+	                        position={[this.state.coords.lat, this.state.coords.lng]}/>
                 }
             </div>
         )
