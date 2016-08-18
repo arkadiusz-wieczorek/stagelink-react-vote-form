@@ -1,6 +1,4 @@
 node_modules/
 npm-debug.log
+!public/js
 public/js/*
-public/css/leaflet.css
-node_modules/*
-app/public/js/*
