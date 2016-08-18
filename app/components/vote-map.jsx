@@ -19,8 +19,11 @@ class Lmap extends React.Component{
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="http://stagelink.com">Powered by Stagelink.com</a>'/>
                 <Marker
 					position={this.props.position}
-					icon={this.state.microphoneTag}>
-	                    <Popup>
+					icon={this.state.microphoneTag}
+					alt="Your vote is here!">
+	                    <Popup
+							closeButton={false}
+							keepInView={true}>
 	                        <p> Your vote is here! </p>
 	                    </Popup>
                 </Marker>
