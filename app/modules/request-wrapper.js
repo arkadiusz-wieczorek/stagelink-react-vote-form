@@ -26,9 +26,10 @@ const ReqwestWrapper = new (function() {
 			method: 'get',
 			crossOrigin: true,
 			success: function(response){
-				console.log('response', response);
+				// console.log('response', response);
 				if (response.status === "OK") {
-					ee.emit("changeCoords", response.results[0].geometry.location)
+					// ee.emit("changeCoords", response.results[0].geometry.location)
+					ee.emit('locations', response.results)
 				}
 			}.bind(this)
 		})

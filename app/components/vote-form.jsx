@@ -37,6 +37,7 @@ class VoteForm extends React.Component{
 		this.storeStateBeforeRequest = this.storeStateBeforeRequest.bind(this)
 		this.setNewValue = this.setNewValue.bind(this)
 		this.handleEmptyInputField = this.handleEmptyInputField.bind(this)
+		this.loadLocations = this.loadLocations.bind(this)
     }
 
     componentWillMount(){
@@ -47,7 +48,20 @@ class VoteForm extends React.Component{
         facebookHandler.init();
 		let self = this;
 		self.googleResponse();
+		self.loadLocations();
     }
+
+	loadLocations(){
+		ee.on('locations', function(data){
+			console.log('data', data);
+		})
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.inputValue !== this.state.inputValue) {
+			rq.getCoords(this.state.address)
+		}
+	}
 
 	componentWillUnmount() {
 		this.setState({
