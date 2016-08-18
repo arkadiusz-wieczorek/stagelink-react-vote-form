@@ -2,6 +2,7 @@
 
 .leaflet-popup {
 		position   : absolute;
+		left: -83px !important;
 		text-align : center;
 }
 
@@ -12,7 +13,7 @@
 }
 
 .leaflet-popup-content {
-		margin      : 13px 19px;
+		margin: 1rem;
 		line-height : 1.4;
 }
 
@@ -28,8 +29,8 @@
 
 .leaflet-popup-tip-container {
 		position : relative;
-		width    : 40px;
-		height   : 20px;
+		width    : 20px;
+		height   : 2.6rem;
 		margin   : 0 auto;
 		overflow : hidden;
 }
