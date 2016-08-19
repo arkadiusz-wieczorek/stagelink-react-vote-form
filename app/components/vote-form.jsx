@@ -11,7 +11,8 @@ import InstagramButton from '../modules/instagram-handler.jsx';
 import DemandSelect from './demand-select.jsx';
 
 
-import Autocomplete from 'react-autocomplete';
+// import Autocomplete from 'react-autocomplete';
+// import Autocomplete from 'react-google-autocomplete';
 
 
 
@@ -68,7 +69,7 @@ class VoteForm extends React.Component{
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.inputValue !== this.state.inputValue) {
-			rq.getCoords(this.state.address)
+			rq.getLocations(this.state.address)
 		}
 	}
 
@@ -84,7 +85,7 @@ class VoteForm extends React.Component{
 			demand: this.refs.demand.getValue()
 		})
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
-		rq.getCoords(this.state.address)
+		rq.getLocations(this.state.address)
 	}
 
 	googleResponse(){
@@ -163,137 +164,143 @@ class VoteForm extends React.Component{
 
 	render () {
 		return (
-			<Autocomplete
-				ref="autocomplete"
-				value={this.state.inputValue}
-				items={this.state.locations}
-				getItemValue={(item) => item.name}
-				onSelect={(value, item) => {
-					this.setState({
-						inputValue: value,
-						locations: [ item ]
-					})
-				}}
-				onChange={(event, value) => {
+			<div className="wrapper" ref="form">
+				<div className="overlay-map">
+					<div className="vote-frame">
 
-					var self = this;
-					self.setState({
-						inputValue: value,
-						loading: true
-					})
+						<div className="fragment__vote-information">
+							<h2>Vote now!</h2>
+							<p>Request a show to access exclusive content and early bird tickets.</p>
+							<i className="icon-lock">
+								<p className="icon icon-lock-fill"></p>
+							</i>
+						</div>
 
-					if (value !== "") {
+						<div className="fragment__vote-details">
+							<h2>Please come to</h2>
 
-						rq.getCoords(value, function(data){
-							self.setState({
-								locations: data,
-								inputValue: value,
-								loading: false
-							})
-						})
-					}
-				}}
-				renderItem={(item, isHighlighted) => (
-					<div key={item.abbr} id={item.abbr}>
-						{item.name}
+							<div>
+								{(this.state.emptyField === false)
+									?
+									<div>
+										<input
+											className="input-field"
+											placeholder="Type in your town"
+											ref="address"
+											type="text"
+											value={this.state.inputValue}
+											onChange={this.setNewValue}/>
+									</div>
+									:
+									<div data-tooltip="Where should the show take place?">
+										<input
+											className="input-field input-field__error"
+											placeholder="Type in your town"
+											ref="address"
+											type="text"
+											value={this.state.inputValue}
+											onChange={this.setNewValue} />
+									</div>
+								}
+							</div>
+
+							<h2>I'd pay up to</h2>
+							<DemandSelect
+								options={this.props.artist['vote-values']}
+								ref="demand"/>
+						</div>
+
+						<div className="fragment__vote-buttons">
+
+							{(this.state.inputValue !== "")
+
+								?
+								<div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
+									<button
+										onClick={this.facebookResponse}
+										className={classNames('button', 'button__facebook')}>
+										<span className="icon icon-facebook"></span>
+										Request with Facebook
+									</button>
+									<GoogleButton
+										text="Google"/>
+									<InstagramButton
+										text="Instagram"/>
+								</div>
+								:
+								<div className="buttons-wrapper">
+									<button
+										onClick={this.handleEmptyInputField}
+										className={classNames('button', 'button__facebook')}>
+										<span className="icon icon-facebook"></span>
+										Request with Facebook
+									</button>
+									<button
+										onClick={this.handleEmptyInputField}
+										className={classNames('button', 'button__gplus')}>
+										<span className="icon icon-google"></span>
+										Google
+									</button>
+									<button
+										onClick={this.handleEmptyInputField}
+										className={classNames('button', 'button__instagram')}>
+										<span className="icon icon-instagram"></span>
+										Instagram
+									</button>
+								</div>
+							}
+						</div>
 					</div>
-				)}
-				/>
+					<div className="fragment__vote-about">
+						<p>
+							Your vote does not commit you to buy a ticket
+						</p>
+					</div>
+				</div>
+			</div>
+
 		)
 	}
 }
-// <div className="wrapper" ref="form">
-// 	<div className="overlay-map">
-// 		<div className="vote-frame">
-//
-// 			<div className="fragment__vote-information">
-// 				<h2>Vote now!</h2>
-// 				<p>Request a show to access exclusive content and early bird tickets.</p>
-// 				<i className="icon-lock">
-// 					<p className="icon icon-lock-fill"></p>
-// 				</i>
-// 			</div>
-//
-// 			<div className="fragment__vote-details">
-// 				<h2>Please come to</h2>
-// 				<div>
-// 					{(this.state.emptyField === false)
-// 						?
-// 							<div>
-// 								<input
-// 									className="input-field"
-// 									placeholder="Type in your town"
-// 									ref="address"
-// 									type="text"
-// 									value={this.state.inputValue}
-// 									onChange={this.setNewValue}/>
-// 							</div>
-// 						:
-// 							<div data-tooltip="Where should the show take place?">
-// 								<input
-// 									className="input-field input-field__error"
-// 									placeholder="Type in your town"
-// 									ref="address"
-// 									type="text"
-// 									value={this.state.inputValue}
-// 									onChange={this.setNewValue} />
-// 							</div>
-// 					}
-// 				</div>
-//
-// 				<h2>I'd pay up to</h2>
-// 				<DemandSelect
-// 					options={this.props.artist['vote-values']}
-// 					ref="demand"/>
-// 			</div>
-//
-// 			<div className="fragment__vote-buttons">
-//
-// 				{(this.state.inputValue !== "")
-//
-// 					?
-// 						<div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
-// 							<button
-// 								onClick={this.facebookResponse}
-// 								className={classNames('button', 'button__facebook')}>
-// 								<span className="icon icon-facebook"></span>
-// 								Request with Facebook
-// 							</button>
-// 							<GoogleButton
-// 								text="Google"/>
-// 							<InstagramButton
-// 								text="Instagram"/>
-// 						</div>
-// 					:
-// 						<div className="buttons-wrapper">
-// 							<button
-// 								onClick={this.handleEmptyInputField}
-// 								className={classNames('button', 'button__facebook')}>
-// 								<span className="icon icon-facebook"></span>
-// 								Request with Facebook
-// 							</button>
-// 							<button
-// 								onClick={this.handleEmptyInputField}
-// 								className={classNames('button', 'button__gplus')}>
-// 								<span className="icon icon-google"></span>
-// 								Google
-// 							</button>
-// 							<button
-// 								onClick={this.handleEmptyInputField}
-// 								className={classNames('button', 'button__instagram')}>
-// 								<span className="icon icon-instagram"></span>
-// 								Instagram
-// 							</button>
-// 						</div>
-// 				}
-// 			</div>
-// 		</div>
-// 		<div className="fragment__vote-about">
-// 			<p>
-// 				Your vote does not commit you to buy a ticket
-// 			</p>
-// 		</div>
-// 	</div>
-// </div>
 
 export default VoteForm;
+
+//
+// <Autocomplete
+// 	className="input-field"
+// 	inputProps={{className: 'input-field'}}
+// 	ref="autocomplete"
+// 	value={this.state.inputValue}
+// 	items={this.state.locations}
+// 	getItemValue={(item) => item.name}
+// 	onSelect={(value, item) => {
+// 		this.setState({
+// 			inputValue: value,
+// 			locations: [ item ]
+// 		})
+// 	}}
+// 	onChange={(event, value) => {
+//
+// 		var self = this;
+// 		self.setState({
+// 			inputValue: value,
+// 			loading: true
+// 		})
+//
+// 		if (value !== "") {
+//
+// 			rq.getLocations(value, function(data){
+// 				self.setState({
+// 					locations: data,
+// 					inputValue: value,
+// 					loading: false
+// 				})
+// 			})
+// 		}
+// 	}}
+// 	renderItem={(item, isHighlighted) => (
+// 		<div key={item.abbr} id={item.abbr}>
+// 			{item.name}
+// 		</div>
+// 	)}
+// 	/>

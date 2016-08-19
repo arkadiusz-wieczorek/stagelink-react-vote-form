@@ -127,7 +127,7 @@ h1 {
 		line-height : 3rem;
 }
 
-.fragment__vote-details input.input-field[type="text"] {
+.fragment__vote-details input.input-field[type="text"], div input.input-field[type="text"] {
 		display               : block;
 		position              : relative;
 		width                 : 13.5rem;
