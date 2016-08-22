@@ -35,6 +35,7 @@ class VoteFrame extends React.Component {
         });
 
         ee.on('changeCoords', function(coords){
+			console.log('coords', coords);
             self.changeAttributeValue('coords', coords);
 			localStorage.setItem('stagelink-coords', JSON.stringify(coords))
         })

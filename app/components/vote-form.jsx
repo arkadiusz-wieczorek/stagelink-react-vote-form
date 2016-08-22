@@ -26,6 +26,7 @@ class VoteForm extends React.Component{
             address: '',
 
 			inputValue: '',
+			inputType: 'input',
 			emptyField: false,
 
 			demand: {},
@@ -44,7 +45,7 @@ class VoteForm extends React.Component{
 		this.setNewValue = this.setNewValue.bind(this)
 		this.handleEmptyInputField = this.handleEmptyInputField.bind(this)
 		this.loadLocations = this.loadLocations.bind(this)
-
+		this.getPlaceId = this.getPlaceId.bind(this)
     }
 
     componentWillMount(){
@@ -52,14 +53,15 @@ class VoteForm extends React.Component{
     }
 
     componentDidMount() {
-        facebookHandler.init();
 		let self = this;
+        facebookHandler.init();
 		self.googleResponse();
 		self.loadLocations();
     }
 
 	componentDidUpdate(prevProps, prevState) {
-		if (prevState.inputValue !== this.state.inputValue) {
+		if (prevState.inputValue !== this.state.inputValue &&
+			this.state.inputType === "input" || this.state.inputType === "") {
 			this.loadLocations()
 		}
 	}
@@ -133,6 +135,7 @@ class VoteForm extends React.Component{
 		if (event.target.value === "") {
 			this.setState({
 				emptyField: true,
+				inputType: 'input',
 				address: event.target.value,
 				shadow_address: event.target.value,
 				inputValue: event.target.value
@@ -140,6 +143,7 @@ class VoteForm extends React.Component{
 		} else {
 			this.setState({
 				emptyField: false,
+				inputType: 'input',
 				address: event.target.value,
 				shadow_address: event.target.value,
 				inputValue: event.target.value
@@ -154,134 +158,132 @@ class VoteForm extends React.Component{
 		})
 	}
 
+	getPlaceId(location){
+		// e.preventDefault()
+		// console.log(e);
+		rq.getCoordsById(location.place_id)
+
+		this.setState({
+			inputType: 'click',
+			inputValue: location.name,
+			address: location.name,
+			shadow_address: location.name,
+			locations: []
+		})
+	}
+
 
 	render () {
-		console.log('this.state.locations', this.state.locations);
 		return(
-			<div>
-				{(this.state.emptyField === false)
-					?
-					<div>
-						<input
-							className="input-field"
-							placeholder="Type in your town"
-							ref="address"
-							type="text"
-							value={this.state.inputValue}
-							onChange={this.setNewValue}/>
+			<div className="wrapper" ref="form">
+				<div className="overlay-map">
+					<div className="vote-frame">
 
+						<div className="fragment__vote-information">
+							<h2>Vote now!</h2>
+							<p>Request a show to access exclusive content and early bird tickets.</p>
+							<i className="icon-lock">
+								<p className="icon icon-lock-fill"></p>
+							</i>
+						</div>
+
+						<div className="fragment__vote-details">
+							<h2>Please come to</h2>
+
+							<div>
+								{(this.state.emptyField === false)
+									?
+									<div>
+										<input
+											className="input-field"
+											placeholder="Type in your town"
+											ref="address"
+											type="text"
+											value={this.state.inputValue}
+											onChange={this.setNewValue}/>
+											<ul>
+												{this.state.locations.map(function(location){
+													return (
+														<li key={location.place_id}
+															onClick={this.getPlaceId.bind(this, location)}>
+															{location.name}
+														</li>
+													)
+												}.bind(this))}
+											</ul>
+									</div>
+									:
+									<div data-tooltip="Where should the show take place?">
+										<input
+											className="input-field input-field__error"
+											placeholder="Type in your town"
+											ref="address"
+											type="text"
+											value={this.state.inputValue}
+											onChange={this.setNewValue} />
+									</div>
+								}
+							</div>
+
+							<h2>I'd pay up to</h2>
+							<DemandSelect
+								options={this.props.artist['vote-values']}
+								ref="demand"/>
+						</div>
+
+						<div className="fragment__vote-buttons">
+
+							{(this.state.inputValue !== "")
+
+								?
+								<div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
+									<button
+										onClick={this.facebookResponse}
+										className={classNames('button', 'button__facebook')}>
+										<span className="icon icon-facebook"></span>
+										Request with Facebook
+									</button>
+									<GoogleButton
+										text="Google"/>
+									<InstagramButton
+										text="Instagram"/>
+								</div>
+								:
+								<div className="buttons-wrapper">
+									<button
+										onClick={this.handleEmptyInputField}
+										className={classNames('button', 'button__facebook')}>
+										<span className="icon icon-facebook"></span>
+										Request with Facebook
+									</button>
+									<button
+										onClick={this.handleEmptyInputField}
+										className={classNames('button', 'button__gplus')}>
+										<span className="icon icon-google"></span>
+										Google
+									</button>
+									<button
+										onClick={this.handleEmptyInputField}
+										className={classNames('button', 'button__instagram')}>
+										<span className="icon icon-instagram"></span>
+										Instagram
+									</button>
+								</div>
+							}
+						</div>
 					</div>
-					:
-					<div data-tooltip="Where should the show take place?">
-						<input
-							className="input-field input-field__error"
-							placeholder="Type in your town"
-							ref="address"
-							type="text"
-							value={this.state.inputValue}
-							onChange={this.setNewValue} />
+					<div className="fragment__vote-about">
+						<p>
+							Your vote does not commit you to buy a ticket
+						</p>
 					</div>
-				}
+				</div>
 			</div>
 		)
 	}
 }
 
 export default VoteForm;
-// <div className="wrapper" ref="form">
-// 	<div className="overlay-map">
-// 		<div className="vote-frame">
-//
-// 			<div className="fragment__vote-information">
-// 				<h2>Vote now!</h2>
-// 				<p>Request a show to access exclusive content and early bird tickets.</p>
-// 				<i className="icon-lock">
-// 					<p className="icon icon-lock-fill"></p>
-// 				</i>
-// 			</div>
-//
-// 			<div className="fragment__vote-details">
-// 				<h2>Please come to</h2>
-//
-// 				<div>
-// 					{(this.state.emptyField === false)
-// 						?
-// 						<div>
-// 							<input
-// 								className="input-field"
-// 								placeholder="Type in your town"
-// 								ref="address"
-// 								type="text"
-// 								value={this.state.inputValue}
-// 								onChange={this.setNewValue}/>
-// 						</div>
-// 						:
-// 						<div data-tooltip="Where should the show take place?">
-// 							<input
-// 								className="input-field input-field__error"
-// 								placeholder="Type in your town"
-// 								ref="address"
-// 								type="text"
-// 								value={this.state.inputValue}
-// 								onChange={this.setNewValue} />
-// 						</div>
-// 					}
-// 				</div>
-//
-// 				<h2>I'd pay up to</h2>
-// 				<DemandSelect
-// 					options={this.props.artist['vote-values']}
-// 					ref="demand"/>
-// 			</div>
-//
-// 			<div className="fragment__vote-buttons">
-//
-// 				{(this.state.inputValue !== "")
-//
-// 					?
-// 					<div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
-// 						<button
-// 							onClick={this.facebookResponse}
-// 							className={classNames('button', 'button__facebook')}>
-// 							<span className="icon icon-facebook"></span>
-// 							Request with Facebook
-// 						</button>
-// 						<GoogleButton
-// 							text="Google"/>
-// 						<InstagramButton
-// 							text="Instagram"/>
-// 					</div>
-// 					:
-// 					<div className="buttons-wrapper">
-// 						<button
-// 							onClick={this.handleEmptyInputField}
-// 							className={classNames('button', 'button__facebook')}>
-// 							<span className="icon icon-facebook"></span>
-// 							Request with Facebook
-// 						</button>
-// 						<button
-// 							onClick={this.handleEmptyInputField}
-// 							className={classNames('button', 'button__gplus')}>
-// 							<span className="icon icon-google"></span>
-// 							Google
-// 						</button>
-// 						<button
-// 							onClick={this.handleEmptyInputField}
-// 							className={classNames('button', 'button__instagram')}>
-// 							<span className="icon icon-instagram"></span>
-// 							Instagram
-// 						</button>
-// 					</div>
-// 				}
-// 			</div>
-// 		</div>
-// 		<div className="fragment__vote-about">
-// 			<p>
-// 				Your vote does not commit you to buy a ticket
-// 			</p>
-// 		</div>
-// 	</div>
-// </div>
 
 //
 // <Autocomplete

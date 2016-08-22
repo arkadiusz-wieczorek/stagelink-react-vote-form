@@ -25,9 +25,31 @@ const ReqwestWrapper = new (function() {
 
 	this.getLocations = (address) => new Promise((resolve, reject) => {
 		if (address !== "") {
-			autocomplete.query({input: address, geocode: true}, function(err, results){
+			autocomplete.place({input: address, types: ['(cities)']}, function(err, results){
+				let locations = []
+
 				if (results !== undefined) {
-					resolve(results)
+					for (let i = 0; i < results.length; i++) {
+						//  delete place which hasn't place_id
+						if (results[i].place_id === undefined) {
+							// results.splice(i, 1)
+							continue;
+						} else {
+							// create nice name for place through term array
+							let name = ""
+							let values = results[i].terms.slice(-2);
+							values.map(function(term){
+								name += term.value+", "
+							})
+							let place_id = results[i].place_id
+
+							locations.push({
+								name: name.slice(0, -2),
+								place_id: place_id
+							})
+						}
+					}
+					resolve(locations)
 				} else {
 					reject([])
 				}
@@ -40,11 +62,11 @@ const ReqwestWrapper = new (function() {
 	this.getCoordsById = (placeId) => {
 		places.details({placeId: placeId}, function (err, place){
 		// places.details({placeId: 'ChIJtwrh7NJEBEcR0b80A5gx6qQ'}, function (err, place){
-			console.log(
-				'place',
-				place.geometry.location.lat(),
-				place.geometry.location.lng()
-			);
+			ee.emit('changeCoords', {
+				lat: place.geometry.location.lat(),
+				lng: place.geometry.location.lng()
+			})
+			console.log('emit');
 		})
 
 	}
