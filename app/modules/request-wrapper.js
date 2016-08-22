@@ -23,17 +23,23 @@ const ReqwestWrapper = new (function() {
 		})
 	}
 
-	this.getLocations = (address) => {
+	this.getLocations = (address) => new Promise((resolve, reject) => {
 		if (address !== "") {
-			autocomplete.query({input: address, geocode: true}, function (err, results) {
-				console.log('results', results);
+			autocomplete.query({input: address, geocode: true}, function(err, results){
+				if (results !== undefined) {
+					resolve(results)
+				} else {
+					reject([])
+				}
 			})
+		} else {
+			reject([])
 		}
-	}
+	})
 
 	this.getCoordsById = (placeId) => {
-		// places.details({placeId: placeId}, function (err, place){
-		places.details({placeId: 'ChIJtwrh7NJEBEcR0b80A5gx6qQ'}, function (err, place){
+		places.details({placeId: placeId}, function (err, place){
+		// places.details({placeId: 'ChIJtwrh7NJEBEcR0b80A5gx6qQ'}, function (err, place){
 			console.log(
 				'place',
 				place.geometry.location.lat(),
@@ -43,50 +49,6 @@ const ReqwestWrapper = new (function() {
 
 	}
 
-	//
-	//
-	// this.__getCoords = (address, callback) => {
-	// 	// const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-	// 	// const url = 'https://maps.googleapis.com/maps/api/place/js/AutocompletionService.GetPredictionsJson?address='
-	//
-	// 	if (address !== "") {
-	// 	// const url = 'https://maps.googleapis.com/maps/api/place/queryautocomplete/xml?'
-	// 		// const url = 'https://maps.googleapis.com/maps/api/place/queryautocomplete/json?'
-	// 		const key = 'key=AIzaSyCslEMZxFioSTU3bs2vD7esV6v31oeY8Z4';
-	// 		let correctAddress = '&input='+address.split(' ').join('+');
-	// // https://maps.googleapis.com/maps/api/place/js/AutocompletionService.GetPredictionsJson?1shg&4sen&9s(cities)&15e3&key=AIzaSyCslEMZxFioSTU3bs2vD7esV6v31oeY8Z4&callback=_xdc_._atq8xd&token=18913
-	// 		reqwest({
-	// 			url: url+key+correctAddress,
-	// 			method: 'get',
-	// 			crossOrigin: true,
-	// 			success: function(response){
-	// 				console.log('test');
-	// 				// console.log('response', response);
-	// 				// if (response.status === "OK") {
-	// 				// 	// ee.emit("changeCoords", response.results[0].geometry.location)
-	// 				// 	ee.emit('locations', response.results)
-	// 				// }
-	// 				console.log('response', response);
-	// 				// let locations = [];
-	// 				//
-	// 				// for (var i = 0; i < response.results.length; i++) {
-	// 				// 	let obj = {
-	// 				// 		name: response.results[i]['formatted_address'],
-	// 				// 		coords: response.results[i]['formatted_address']['location']
-	// 				// 	}
-	// 				// 	console.log('obj.name', obj.name);
-	// 				// 	locations.push(obj)
-	// 				// }
-	// 				// callback(locations)
-	// 				// callback(res)
-	// 			// }.bind(this)
-	// 			},
-	// 			complete: function(response){
-	// 				console.log('response', response.content);
-	// 			}
-	// 		})
-	// 	}
-	// }
 });
 
 export default ReqwestWrapper;

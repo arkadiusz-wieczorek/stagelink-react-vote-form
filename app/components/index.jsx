@@ -7,7 +7,6 @@ import VoteForm from './vote-form.jsx';
 import VoteFooter from './vote-footer.jsx';
 import Map from './vote-map.jsx';
 
-import Test from './test.jsx';
 
 import ee from '../modules/event-emitter.js';
 import urlParams from '../modules/params-handler.js';
