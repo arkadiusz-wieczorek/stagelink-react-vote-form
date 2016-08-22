@@ -10,10 +10,6 @@ import InstagramButton from '../modules/instagram-handler.jsx';
 
 import DemandSelect from './demand-select.jsx';
 
-
-// import Autocomplete from 'react-autocomplete';
-// import Autocomplete from 'react-google-autocomplete';
-
 class VoteForm extends React.Component{
     constructor(props){
         super(props)
@@ -234,7 +230,6 @@ class VoteForm extends React.Component{
 						<div className="fragment__vote-buttons">
 
 							{(this.state.inputValue !== "")
-
 								?
 								<div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
 									<button
@@ -284,61 +279,3 @@ class VoteForm extends React.Component{
 }
 
 export default VoteForm;
-
-//
-// <Autocomplete
-// 	className="input-field"
-// 	inputProps={{className: 'input-field'}}
-// 	ref="autocomplete"
-// 	value={this.state.inputValue}
-// 	items={this.state.locations}
-// 	getItemValue={(item) => item.name}
-// 	onSelect={(value, item) => {
-// 		this.setState({
-// 			inputValue: value,
-// 			locations: [ item ]
-// 		})
-// 	}}
-// 	onChange={(event, value) => {
-//
-// 		var self = this;
-// 		self.setState({
-// 			inputValue: value,
-// 			loading: true
-// 		})
-//
-// 		if (value !== "") {
-//
-// 			rq.getLoc(value, function(data){
-// 				self.setState({
-// 					locations: data,
-// 					inputValue: value,
-// 					loading: false
-// 				})
-// 			})
-// 		}
-// 	}}
-// 	renderItem={(item, isHighlighted) => (
-// 		<div key={item.abbr} id={item.abbr}>
-// 			{item.name}
-// 		</div>
-// 	)}
-// 	/>
-
-
-
-
-	// TO DO it's uunnecessary from inputs
-
-	// <input
-	// 	name="authenticity_token"
-	// 	value={this.state.authenticity_token}
-	// 	type="hidden"/>
-	// <input
-	// 	name="artist_id"
-	// 	value={this.state.artist_id}
-	// 	type="hidden"/>
-	// <input
-	// 	name="referrer"
-	// 	value={this.state.referrer}
-	// 	type="hidden"/>

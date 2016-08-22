@@ -61,16 +61,13 @@ const ReqwestWrapper = new (function() {
 
 	this.getCoordsById = (placeId) => {
 		places.details({placeId: placeId}, function (err, place){
-		// places.details({placeId: 'ChIJtwrh7NJEBEcR0b80A5gx6qQ'}, function (err, place){
 			ee.emit('changeCoords', {
 				lat: place.geometry.location.lat(),
 				lng: place.geometry.location.lng()
 			})
-			console.log('emit');
+			// console.log('emit');
 		})
-
 	}
-
 });
 
 export default ReqwestWrapper;
