@@ -24,15 +24,16 @@ class VoteForm extends React.Component{
 			inputValue: '',
 			inputType: 'input',
 			emptyField: false,
+			selectedLocation: 0,
+			locations: [],
 
 			demand: {},
 
             referrer: document.referrer,
             request_url: window.location.href,
             submit: '',
-            signup_variant: '',
+            signup_variant: ''
 
-			locations: []
         }
 
         this.facebookResponse = this.facebookResponse.bind(this)
@@ -41,7 +42,8 @@ class VoteForm extends React.Component{
 		this.setNewValue = this.setNewValue.bind(this)
 		this.handleEmptyInputField = this.handleEmptyInputField.bind(this)
 		this.loadLocations = this.loadLocations.bind(this)
-		this.getPlaceId = this.getPlaceId.bind(this)
+		this.selectPlaceById = this.selectPlaceById.bind(this)
+		this.handleKeyEvents = this.handleKeyEvents.bind(this)
     }
 
     componentWillMount(){
@@ -52,7 +54,6 @@ class VoteForm extends React.Component{
 		let self = this;
         facebookHandler.init();
 		self.googleResponse();
-		self.loadLocations();
     }
 
 	componentDidUpdate(prevProps, prevState) {
@@ -66,6 +67,8 @@ class VoteForm extends React.Component{
 		this.setState({
 			demand: this.refs.demand.getValue()
 		})
+
+		let data = this.state;
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
 	}
 
@@ -74,7 +77,6 @@ class VoteForm extends React.Component{
 			demand: this.refs.demand.getValue()
 		})
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
-		// rq.getLoc(this.state.address)
 	}
 
 	googleResponse(){
@@ -113,14 +115,13 @@ class VoteForm extends React.Component{
 
 	loadLocations(){
 		let self = this;
-		rq.getLocations(this.state.address)
+		rq.getLocations(this.state.inputValue)
 			.then((results) => {
 				self.setState({
 					'locations': results
 				})
 			})
 			.catch((err) => {
-				// console.log('err', err);
 				self.setState({
 					'locations': []
 				})
@@ -132,42 +133,59 @@ class VoteForm extends React.Component{
 			this.setState({
 				emptyField: true,
 				inputType: 'input',
-				address: event.target.value,
-				shadow_address: event.target.value,
-				inputValue: event.target.value
+				inputValue: event.target.value,
+				selectedLocation: 0
 			})
 		} else {
 			this.setState({
 				emptyField: false,
 				inputType: 'input',
-				address: event.target.value,
-				shadow_address: event.target.value,
-				inputValue: event.target.value
+				inputValue: event.target.value,
+				selectedLocation: 0
 			})
 		}
 	}
 
 	handleEmptyInputField(){
-		console.log('no value');
 		this.setState({
 			emptyField: true
 		})
 	}
 
-	getPlaceId(location){
-		// e.preventDefault()
-		// console.log(e);
+	selectPlaceById(location){
 		rq.getCoordsById(location.place_id)
 
 		this.setState({
 			inputType: 'click',
-			inputValue: location.name,
-			address: location.name,
-			shadow_address: location.name,
+			inputValue: location.city,
+			address: location.city + ", " + location.country,
 			locations: []
 		})
 	}
 
+	handleKeyEvents(event){
+		const items = this.state.locations.length - 1;
+		const selectedLocation = this.state.selectedLocation;
+
+		// select place by enter hit
+		if (event.keyCode === 13) {
+			this.selectPlaceById(this.state.locations[selectedLocation])
+		}
+
+		// change selectedLocation to up
+		if (event.keyCode === 38 && selectedLocation > 0) {
+			this.setState({
+				selectedLocation: selectedLocation - 1
+			})
+		}
+
+		// change selectedLocation to down
+		if (event.keyCode === 40 && selectedLocation < items) {
+			this.setState({
+				selectedLocation: selectedLocation + 1
+			})
+		}
+	}
 
 	render () {
 		return(
@@ -196,13 +214,20 @@ class VoteForm extends React.Component{
 											ref="address"
 											type="text"
 											value={this.state.inputValue}
-											onChange={this.setNewValue}/>
+											onInput={this.setNewValue}
+											onKeyUp={this.handleKeyEvents}/>
 											<ul>
-												{this.state.locations.map(function(location){
+												{this.state.locations.map(function(location, i){
 													return (
-														<li key={location.place_id}
-															onClick={this.getPlaceId.bind(this, location)}>
-															{location.name}
+														<li
+															key={location.place_id}
+															value={i}
+															className={this.state.selectedLocation === i ? 'active' : ''}
+															onClick={this.selectPlaceById.bind(this, location)}>
+
+															<strong>{location.city}</strong>
+															{", "+location.country}
+
 														</li>
 													)
 												}.bind(this))}
@@ -216,7 +241,7 @@ class VoteForm extends React.Component{
 											ref="address"
 											type="text"
 											value={this.state.inputValue}
-											onChange={this.setNewValue} />
+											onInput={this.setNewValue} />
 									</div>
 								}
 							</div>
