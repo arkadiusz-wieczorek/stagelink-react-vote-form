@@ -33,7 +33,6 @@ class VoteForm extends React.Component{
             request_url: window.location.href,
             submit: '',
             signup_variant: ''
-
         }
 
         this.facebookResponse = this.facebookResponse.bind(this)
@@ -67,8 +66,6 @@ class VoteForm extends React.Component{
 		this.setState({
 			demand: this.refs.demand.getValue()
 		})
-
-		let data = this.state;
 		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
 	}
 
