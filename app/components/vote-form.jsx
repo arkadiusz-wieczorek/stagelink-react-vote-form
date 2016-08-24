@@ -212,7 +212,7 @@ class VoteForm extends React.Component{
 											type="text"
 											value={this.state.inputValue}
 											onInput={this.setNewValue}
-											onKeyUp={this.handleKeyEvents}/>
+											onKeyDown={this.handleKeyEvents}/>
 											<ul>
 												{this.state.locations.map(function(location, i){
 													return (
