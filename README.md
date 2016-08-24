@@ -86,14 +86,14 @@ As above but it changes `this.state.coords` and sets localStorage property `stag
 In this case this function has 3 responsibilities:
 - loading map again instead of form when global `artist.id` property is the same with `artist_id` saved in localStorage object,
 - loading coords from localStorage
-- handle response from Instagram and send request to backend, because Instagram doesn't have JavaScript API. In this place we need to get the `code` value from Instagram which is taken from the address bar as url param.
+- handle response from Instagram and send request to backend, because Instagram doesn't has JavaScript API. In this place we need to get the `code` value from Instagram which is taken from the address bar as url param.
 
 
 ### vote-header.jsx
 It's simple stateless component which displays `header` tag with artist name through `this.props`.
 
 ### vote-footer.jsx
-As above.
+As above this component displays `footer` tag.
 
 
 ### demand-select.jsx
@@ -101,15 +101,37 @@ This component displays `select` tags in form. The values are loading through `t
 
 ### vote-form.jsx
 
+#### Important properties in state
+##### `authResponse` property
+Here is stored the answer from logging services (Facebook, Google, Instagram).
+
+##### `inputType` property
+It's value for checking whether the user has selected place by keyboard `input` or mouse `click`.
+
+##### `emptyField` property
+If input field has text then in `render` function simple `if else` statement grabs this value and when if is assigned `true` then it displays `input` with `tooltip` "Where should the show take place?" otherwise it displays list with suggestions.
+
+##### `demand` property
+This object has information about chosen currency and value.
+
+
+
+
+
 #### Important functions
 
 ##### `componentWillUnmount` and `storeStateBeforeRequest`
-These functions have the same body but `componentWillUnmount` works when we are voting by Instagram. The `storeStateBeforeRequest` functions works in case voting by Facebook and Google.
-It happens because instagram performs redirect. The responsibility of these features is saving currrent state to localStorage object.
+These functions have the same body but `componentWillUnmount` works when we are voting by Instagram. It happens because Instagram performs redirect. The `storeStateBeforeRequest` functions works in case when we are voting by Facebook and Google, because here we have JavaScript SDK and opportunity to load information about logging to service through Promise. The responsibility of these functions is saving currrent state to localStorage object.
 
 ##### `googleResponse` and `facebookResponse`
-These functions are handlers for response from Facebook and Google. What is the Instagram, please check componentWillMount header in description about index.jsx.
+These functions are handlers for response from Facebook and Google. What is the Instagram? Please check componentWillMount header in description about index.jsx.
 
+
+##### `loadLocations`
+This function loads data from Autocompletion Service Google through Promise. It's used in `componentDidUpdate` function because the new locations are loading only when typing something in input.
+
+##### `selectPlaceById`
+When you are choosing a place, this function loads coordinates of place by `place_id`.
 
 
 ## Modules
