@@ -363,42 +363,34 @@ footer span {
 	vertical-align: middle;
 }
 
-@media all
-       and (max-width: 32rem) {
-		   /*
-		   .wrapper{
-		   margin-left: 1rem;
-		   margin-right: 1rem;
-		}
-		*/
+@media all and (max-width: 32rem) {
+	header {
+		padding-left: 1rem;
+		padding-right: 1rem;
+		padding-top: 1rem;
+	}
 
-		header {
-			padding-left: 1rem;
-			padding-right: 1rem;
-			padding-top: 1rem;
-		}
+	h1 {
+		line-height: 2.6rem;
+	}
 
-		h1 {
-			line-height: 2.6rem;
-		}
+	.vote-frame {
+		padding-top: 1rem;
+		width: auto;
+	}
 
-		.vote-frame {
-			padding-top: 1rem;
-			width: auto;
-		}
+	.fragment__vote-information {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
 
-		.fragment__vote-information {
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-		}
+	.fragment__vote-about p {
+		line-height: 1.5rem;
+	}
 
-		.fragment__vote-about p {
-			line-height: 1.5rem;
-		}
-
-		.fragment__vote-about,
-		footer {
-			padding-left: 1rem;
-			padding-right: 1rem;
-		}
+	.fragment__vote-about,
+	footer {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
 }

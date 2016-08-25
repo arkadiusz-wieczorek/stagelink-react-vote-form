@@ -17,8 +17,6 @@ class VoteForm extends React.Component{
             authResponse: {},
 
             artist_id: this.props.artist.id,
-
-            shadow_address: '',
             address: '',
 
 			inputValue: '',
@@ -131,6 +129,7 @@ class VoteForm extends React.Component{
 				emptyField: true,
 				inputType: 'input',
 				inputValue: event.target.value,
+				address: event.target.value,
 				selectedLocation: 0
 			})
 		} else {
@@ -138,6 +137,7 @@ class VoteForm extends React.Component{
 				emptyField: false,
 				inputType: 'input',
 				inputValue: event.target.value,
+				address: event.target.value,
 				selectedLocation: 0
 			})
 		}
@@ -150,14 +150,19 @@ class VoteForm extends React.Component{
 	}
 
 	selectPlaceById(location){
-		rq.getCoordsById(location.place_id)
+		if (location !== undefined) {
+			rq.getCoordsById(location.place_id)
 
-		this.setState({
-			inputType: 'click',
-			inputValue: location.city,
-			address: location.city + ", " + location.country,
-			locations: []
-		})
+			this.setState({
+				inputType: 'click',
+				inputValue: location.city,
+				address: location.city + ", " + location.country,
+				locations: []
+			})
+		} else {
+			rq.getCoordsByName(this.state.inputValue)
+		}
+
 	}
 
 	handleKeyEvents(event){

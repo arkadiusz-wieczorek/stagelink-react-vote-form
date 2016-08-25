@@ -48,6 +48,25 @@ const ReqwestWrapper = new (function() {
 			})
 		})
 	}
+
+	this.getCoordsByName = (address) => {
+		const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+		const key = 'AIzaSyB7BqVTVe7VYHcPMBi5LuIDhw6fFVQ3OzQ';
+		let correctAddress = address.split(' ').join('+');
+
+		reqwest({
+			url: url+correctAddress,
+			method: 'get',
+			crossOrigin: true,
+			success: function(response){
+				if (response.status === "OK") {
+					ee.emit("changeCoords",
+						response.results[0].geometry.location)
+				}
+			}
+		})
+	}
+
 });
 
 export default ReqwestWrapper;
