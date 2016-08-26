@@ -150,19 +150,15 @@ class VoteForm extends React.Component{
 	}
 
 	selectPlaceById(location){
-		if (location !== undefined) {
-			rq.getCoordsById(location.place_id)
 
-			this.setState({
-				inputType: 'click',
-				inputValue: location.city,
-				address: location.city + ", " + location.country,
-				locations: []
-			})
-		} else {
-			rq.getCoordsByName(this.state.inputValue)
-		}
+		rq.getCoordsById(location.place_id)
 
+		this.setState({
+			inputType: 'click',
+			inputValue: location.city,
+			address: location.city + ", " + location.country,
+			locations: []
+		})
 	}
 
 	handleKeyEvents(event){

@@ -9,6 +9,7 @@ const ReqwestWrapper = new (function() {
 
 	this.sendVote = (data) => {
 		let url = 'http://localhost:3000/demands'
+
 		console.log('request', data)
 		reqwest({
 			url: url,
@@ -28,8 +29,8 @@ const ReqwestWrapper = new (function() {
 
 				for (let i = 0; i < results.length; i++) {
 					locations.push({
-						city: results[i].terms.slice(-2)[0].value,
-						country: results[i].terms.slice(-2)[1].value,
+						city: results[i].terms[0].value,
+						country: results[i].terms[1].value,
 						place_id: results[i].place_id
 					})
 				}
@@ -42,10 +43,18 @@ const ReqwestWrapper = new (function() {
 
 	this.getCoordsById = (placeId) => {
 		places.details({placeId}, (err, place) => {
+			let countryCode = place.address_components.filter((item) => {
+				if (item.short_name.length <= 3 && item.types.indexOf('country') !== -1) {
+					return item
+				}
+			})
+
 			ee.emit('changeCoords', {
 				lat: place.geometry.location.lat(),
-				lng: place.geometry.location.lng()
+				lng: place.geometry.location.lng(),
 			})
+
+			ee.emit('countryCode', countryCode[0].short_name)
 		})
 	}
 

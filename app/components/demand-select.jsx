@@ -1,4 +1,5 @@
 import React from 'react';
+import ee from '../modules/event-emitter.js';
 
 class DemandSelect extends React.Component{
     constructor(props){
@@ -9,32 +10,50 @@ class DemandSelect extends React.Component{
 			prices: [],
 			currencies: []
 		}
+
 		this.loadCurrencies = this.loadCurrencies.bind(this);
 		this.handleChangeCurrency = this.handleChangeCurrency.bind(this);
+		this.checkCurrencyForCountry = this.checkCurrencyForCountry.bind(this);
 	}
 
 	componentDidMount() {
-		this.loadCurrencies()
+		let self = this;
+		self.loadCurrencies()
 
-		if (this.state.needToUpdatePrices) {
-			this.updatePrices(this.state.lastCurrency)
-		}
+		if (self.state.needToUpdatePrices) self.updatePrices(self.state.lastCurrency)
+
+		ee.on('countryCode', function(country_code) {
+			let newCurrency = self.checkCurrencyForCountry(country_code)
+			if (self.state.lastCurrency !== newCurrency) {
+
+				self.setState({
+					lastCurrency: newCurrency,
+					needToUpdatePrices: true
+				})
+				self.refs.currency.value = newCurrency
+			}
+		})
 	}
 
 	componentDidUpdate() {
-		if (this.state.needToUpdatePrices) {
-			this.updatePrices(this.state.lastCurrency)
-		}
+		if (this.state.needToUpdatePrices) this.updatePrices(this.state.lastCurrency)
+	}
+
+	checkCurrencyForCountry(country_code){
+		let currency = 'USD';
+		if (this.props.GBP.has(country_code)) currency = 'GBP'
+		if (this.props.EUR.has(country_code)) currency = 'EUR'
+
+		return currency
 	}
 
 	loadCurrencies(){
-		let formCurrencies = this.props.options;
 		let currencies = [];
 
-		for (let i in formCurrencies) {
+		for (let i in this.props.options) {
 			currencies.push(
 				<option value={i} key={i}>
-					{formCurrencies[i].currency_symbol}
+					{this.props.options[i].currency_symbol}
 				</option>
 			)
 		}
@@ -54,13 +73,12 @@ class DemandSelect extends React.Component{
 	}
 
 	updatePrices(currency){
-		let choosenCurrencyPrices = this.props.options[currency].prices
 		let prices = [];
 
-		for (let i = 0; i < choosenCurrencyPrices.length; i++) {
+		for (let i = 0; i < this.props.options[currency].prices.length; i++) {
 			prices.push(
-				<option	value={choosenCurrencyPrices[i]} key={i}>
-					{choosenCurrencyPrices[i]}
+				<option	value={this.props.options[currency].prices[i]} key={i}>
+					{this.props.options[currency].prices[i]}
 				</option>
 			);
 		}
@@ -79,7 +97,7 @@ class DemandSelect extends React.Component{
 		return {price: price, currency: currency}
 	}
 
-    render () {
+    render () {	
         return (
 			<div className="selects-wrapper">
 				<select
@@ -98,6 +116,11 @@ class DemandSelect extends React.Component{
 			</div>
         )
     }
+}
+
+DemandSelect.defaultProps = {
+	GBP: new Set(["GB", "GG", "GI", "IM", "JE"]),
+	EUR: new Set(["AD", "AL", "AT", "BA", "BE", "BG", "BY", "CH", "CZ", "DE", "DK", "EE", "ES", "FI", "FI", "FO", "FR", "GF", "GP", "GR", "HR", "HU", "IE", "IS", "IT", "LI", "LT", "LU", "LV", "MC", "ME", "MK", "MQ", "MT", "NL", "NO", "PL", "PM", "PT", "RO", "RS", "RU", "SE", "SI", "SJ", "SK", "SM", "TF", "UA"])
 }
 
 export default DemandSelect;
