@@ -289,11 +289,7 @@ class VoteForm extends React.Component{
 							}
 						</div>
 					</div>
-					<div className="fragment__vote-about">
-						<p>
-							Your vote does not commit you to buy a ticket
-						</p>
-					</div>
+
 				</div>
 			</div>
 		)

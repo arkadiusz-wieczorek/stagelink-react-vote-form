@@ -20,9 +20,7 @@ summary {
 }
 
 body {
-	font-family: 'Open Sans',
-              	sans-serif;
-				transition: all 400ms;
+	font-family: 'Open Sans', sans-serif;
 }
 
 #map1,
@@ -47,14 +45,8 @@ body {
 	margin: 0 auto;
 }
 
-header {
-	padding-top: 6rem;
-}
-
-
-
 .overlay-map {
-	/* background-image: url('../images/bg-map-blur.jpg'); */
+	background-image: url('../images/bg-map-blur.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -62,8 +54,9 @@ header {
 .vote-frame {
 	color: #fff;
 	margin: 0 auto;
-	padding-top: 4rem;
+	padding-top: 2rem;
 	width: 22.5rem;
+	transition: 400ms;
 }
 
 .fragment__vote-information {
@@ -369,24 +362,18 @@ footer span {
 }
 
 @media all and (max-width: 32rem) {
-	header {
-		padding-left: 1rem;
-		padding-right: 1rem;
-		padding-top: 1rem;
-	}
-
-	h1 {
-		line-height: 2.6rem;
-	}
-
 	.vote-frame {
-		padding-top: 1rem;
+		padding-top: 0;
 		width: auto;
 	}
 
 	.fragment__vote-information {
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
+	}
+
+	.fragment__vote-information h2{
+		font-size: 1.2rem;
 	}
 
 	.fragment__vote-about p {
