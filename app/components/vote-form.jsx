@@ -63,17 +63,13 @@ class VoteForm extends React.Component{
 	}
 
 	componentWillUnmount() {
-		this.setState({
-			demand: this.refs.demand.getValue()
-		})
-		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
+		ee.unregister();
 	}
 
 	storeStateBeforeRequest(){
-		this.setState({
-			demand: this.refs.demand.getValue()
-		})
-		localStorage.setItem('stagelink-vote', JSON.stringify(this.state))
+		let data = this.state
+		data.demand = this.refs.demand.getValue()
+		localStorage.setItem('stagelink-vote', JSON.stringify(data))
 	}
 
 	googleResponse(){

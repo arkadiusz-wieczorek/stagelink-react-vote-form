@@ -39,6 +39,10 @@ class DemandSelect extends React.Component{
 		if (this.state.needToUpdatePrices) this.updatePrices(this.state.lastCurrency)
 	}
 
+	componentWillUnmount() {
+		ee.unregister()
+	}
+
 	checkCurrencyForCountry(country_code){
 		let currency = 'USD';
 		if (this.props.GBP.has(country_code)) currency = 'GBP'
@@ -97,7 +101,7 @@ class DemandSelect extends React.Component{
 		return {price: price, currency: currency}
 	}
 
-    render () {	
+    render () {
         return (
 			<div className="selects-wrapper">
 				<select

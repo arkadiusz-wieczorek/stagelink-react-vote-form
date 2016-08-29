@@ -15,44 +15,44 @@ class VoteFrame extends React.Component {
         super(props)
         this.state = {
     		artist: artist,
-
             voted: false,
-            coords: {
-                lat: 0,
-                lng: 0
-            }
+            coords: {}
         };
-        this.changeAttributeValue = this.changeAttributeValue.bind(this)
     }
 
     componentDidMount() {
         let self = this;
 
         ee.on('isVoted', function(voted) {
-            self.changeAttributeValue("voted", voted);
+			self.setState({
+				voted: voted
+			})
         });
 
         ee.on('changeCoords', function(coords){
-			console.log('coords', coords);
-            self.changeAttributeValue('coords', coords);
+			self.setState({
+				coords: coords
+			})
 			localStorage.setItem('stagelink-coords', JSON.stringify(coords))
         })
     }
 
 	componentWillMount(){
-		let self = this;
 		let stagelinkVote = JSON.parse(localStorage.getItem('stagelink-vote'))
-
 		let stagelinkCoords = JSON.parse(localStorage.getItem('stagelink-coords'))
 
 		// redirect to map view when artist-id in form it is identical with global artist-id
 		if (stagelinkVote !== null && stagelinkVote.artist_id === artist.id) {
-			self.changeAttributeValue('voted', true)
+			this.setState({
+				voted: true
+			})
 		}
 
 		// handle coords when this component is mounting again
 		if (stagelinkCoords !== null) {
-			self.changeAttributeValue('coords', stagelinkCoords)
+			this.setState({
+				coords: stagelinkCoords
+			})
 		}
 
 		//handle response from instagram to send request to backend
@@ -69,13 +69,6 @@ class VoteFrame extends React.Component {
         ee.unregister();
     }
 
-    changeAttributeValue(param, value){
-        var self = this;
-        var obj = {};
-        obj[param] = value;
-        self.setState(obj);
-    }
-
     render() {
         return (
             <div>
@@ -83,7 +76,6 @@ class VoteFrame extends React.Component {
                     ?
 	                    <div className="vote-box">
 	                        <VoteForm
-								changeAttributeValue={this.changeAttributeValue}
 								artist={this.state.artist} />
 	                        <VoteFooter />
 	                    </div>

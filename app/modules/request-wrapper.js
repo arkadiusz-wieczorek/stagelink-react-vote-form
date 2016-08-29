@@ -9,8 +9,9 @@ const ReqwestWrapper = new (function() {
 
 	this.sendVote = (data) => {
 		let url = 'http://localhost:3000/demands'
-
-		console.log('request', data)
+		data.inputType = undefined;
+		data.emptyField = undefined;
+		
 		reqwest({
 			url: url,
 			method: 'post',
