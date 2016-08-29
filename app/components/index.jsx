@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
-import VoteHeader from './vote-header.jsx';
 import VoteForm from './vote-form.jsx';
 import VoteFooter from './vote-footer.jsx';
 import Map from './vote-map.jsx';
@@ -83,8 +82,6 @@ class VoteFrame extends React.Component {
                 {(this.state.voted === false)
                     ?
 	                    <div className="vote-box">
-	                        <VoteHeader
-								artist_name={this.state.artist.name}/>
 	                        <VoteForm
 								changeAttributeValue={this.changeAttributeValue}
 								artist={this.state.artist} />

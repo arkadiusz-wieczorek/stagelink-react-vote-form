@@ -51,13 +51,7 @@ header {
 	padding-top: 6rem;
 }
 
-h1 {
-	color: rgb(88, 88, 88);
-	font-size: 1.875rem;
-	font-weight: 500;
-	line-height: 3.75rem;
-	text-align: center;
-}
+
 
 .overlay-map {
 	/* background-image: url('../images/bg-map-blur.jpg'); */
@@ -80,15 +74,25 @@ h1 {
 	padding: 1rem 2rem 0rem 2rem;
 }
 
-.fragment__vote-information h2 {
+.fragment__vote-information h1 {
+	color: rgb(255, 255, 255);
 	font-size: 1.875rem;
-	font-weight: 700;
-	line-height: 3.75rem;
+	font-weight: 600;
+	line-height: 2.5rem;
+	text-align: center;
+	padding-top: 1rem;
+	padding-bottom: 0.25rem;
+}
+
+.fragment__vote-information h2 {
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 3rem;
 	text-align: center;
 }
 
 .fragment__vote-information p {
-	font-size: 1.1rem;
+	/*! font-size: 1.1rem; */
 	text-align: center;
 }
 
@@ -139,7 +143,8 @@ div input.input-field[type="text"] {
 	height: 3.5rem;
 	line-height: 3.5rem;
 	margin: 0 auto;
-	padding: 0;
+	padding-left: 1rem;
+	padding-right: 1rem;
 	position: relative;
 	text-align: center;
 	width: 13.5rem;
@@ -149,17 +154,17 @@ div input.input-field[type="text"] {
 	border: 3px solid #ff0000 !important;
 }
 
-.fragment__vote-details ul {
+ul {
 	position: relative;
 	color: #232323;
 	display: block;
-	max-height: 2.5rem;
+	max-height: 0rem;
 	margin: 0 auto;
 	/*max-height: 8rem;*/
 	width: 13.5rem;
 }
 
-.fragment__vote-details li {
+li {
 	margin: 0 auto;
 	background-color: #f7f7f7;
 	font-size: 1.2rem;
@@ -169,7 +174,11 @@ div input.input-field[type="text"] {
 	cursor: pointer;
 }
 
-.fragment__vote-details li:hover{
+li:hover{
+	background-color: #ebebeb;
+}
+
+.active{
 	background-color: #ebebeb;
 }
 
@@ -359,42 +368,34 @@ footer span {
 	vertical-align: middle;
 }
 
-@media all
-       and (max-width: 32rem) {
-		   /*
-		   .wrapper{
-		   margin-left: 1rem;
-		   margin-right: 1rem;
-		}
-		*/
+@media all and (max-width: 32rem) {
+	header {
+		padding-left: 1rem;
+		padding-right: 1rem;
+		padding-top: 1rem;
+	}
 
-		header {
-			padding-left: 1rem;
-			padding-right: 1rem;
-			padding-top: 1rem;
-		}
+	h1 {
+		line-height: 2.6rem;
+	}
 
-		h1 {
-			line-height: 2.6rem;
-		}
+	.vote-frame {
+		padding-top: 1rem;
+		width: auto;
+	}
 
-		.vote-frame {
-			padding-top: 1rem;
-			width: auto;
-		}
+	.fragment__vote-information {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
 
-		.fragment__vote-information {
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-		}
+	.fragment__vote-about p {
+		line-height: 1.5rem;
+	}
 
-		.fragment__vote-about p {
-			line-height: 1.5rem;
-		}
-
-		.fragment__vote-about,
-		footer {
-			padding-left: 1rem;
-			padding-right: 1rem;
-		}
+	.fragment__vote-about,
+	footer {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
 }

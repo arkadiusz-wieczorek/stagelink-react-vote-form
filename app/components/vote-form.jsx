@@ -8,6 +8,8 @@ import facebookHandler from '../modules/facebook-handler.js';
 import GoogleButton from '../modules/google-handler.jsx';
 import InstagramButton from '../modules/instagram-handler.jsx';
 
+import VoteHeader from './vote-header.jsx';
+
 import DemandSelect from './demand-select.jsx';
 
 class VoteForm extends React.Component{
@@ -194,13 +196,7 @@ class VoteForm extends React.Component{
 				<div className="overlay-map">
 					<div className="vote-frame">
 
-						<div className="fragment__vote-information">
-							<h2>Vote now!</h2>
-							<p>Request a show to access exclusive content and early bird tickets.</p>
-							<i className="icon-lock">
-								<p className="icon icon-lock-fill"></p>
-							</i>
-						</div>
+						<VoteHeader artist_name={this.props.artist.name} />
 
 						<div className="fragment__vote-details">
 							<h2>Please come to</h2>
