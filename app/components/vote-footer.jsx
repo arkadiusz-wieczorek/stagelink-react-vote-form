@@ -4,7 +4,10 @@ const VoteHeader = (props) => (
 	<footer>
 		<span className="icon icon-stagelink_icon" />
 		<p>
-			© Stagelink GmbH 2016 - Made with <span className="icon icon-heart" /> in Berlin &amp; New York
+			Made with <span className="icon icon-heart" /> in Berlin &amp; New York
+		</p>
+		<p>
+			© Stagelink GmbH 2016
 		</p>
 	</footer>
 )
