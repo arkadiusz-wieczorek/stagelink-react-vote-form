@@ -120,8 +120,8 @@ This object has information about chosen currency and value.
 
 #### Important functions
 
-##### `componentWillUnmount` and `storeStateBeforeRequest`
-These functions have the same body but `componentWillUnmount` works when we are voting by Instagram. It happens because Instagram performs redirect. The `storeStateBeforeRequest` functions works in case when we are voting by Facebook and Google, because here we have JavaScript SDK and opportunity to load information about logging to service through Promise. The responsibility of these functions is saving currrent state to localStorage object.
+##### storeStateBeforeRequest`
+Instagram performs redirect so we have to save localStorage. When we are voting by Facebook and Google, we have JavaScript SDK and opportunity to load information about logging to service through Promise, in case Instagram not.
 
 ##### `googleResponse` and `facebookResponse`
 These functions are handlers for response from Facebook and Google. What is the Instagram? Please check componentWillMount header in description about index.jsx.
