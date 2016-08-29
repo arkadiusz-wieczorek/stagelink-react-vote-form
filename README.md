@@ -120,7 +120,7 @@ This object has information about chosen currency and value.
 
 #### Important functions
 
-##### storeStateBeforeRequest`
+##### `storeStateBeforeRequest`
 Instagram performs redirect so we have to save localStorage. When we are voting by Facebook and Google, we have JavaScript SDK and opportunity to load information about logging to service through Promise, in case Instagram not.
 
 ##### `googleResponse` and `facebookResponse`
