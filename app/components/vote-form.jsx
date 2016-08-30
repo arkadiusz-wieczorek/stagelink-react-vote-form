@@ -43,6 +43,7 @@ class VoteForm extends React.Component{
 		this.loadLocations = this.loadLocations.bind(this)
 		this.selectPlaceById = this.selectPlaceById.bind(this)
 		this.handleKeyEvents = this.handleKeyEvents.bind(this)
+		this.moveCarretToEnd = this.moveCarretToEnd.bind(this)
     }
 
     componentWillMount(){
@@ -186,6 +187,13 @@ class VoteForm extends React.Component{
 		}
 	}
 
+	moveCarretToEnd(){
+		let a = this.state.inputValue.length;
+		if (this.refs.address.selectionStart !== a || this.refs.address.selectionEnd !== a) {
+			this.refs.address.setSelectionRange(a, a)
+		}
+	}
+
 	render () {
 		return(
 			<div className="wrapper" ref="form">
@@ -208,7 +216,8 @@ class VoteForm extends React.Component{
 											type="text"
 											value={this.state.inputValue}
 											onInput={this.setNewValue}
-											onKeyDown={this.handleKeyEvents}/>
+											onKeyDown={this.handleKeyEvents}
+											onClick={this.moveCarretToEnd}/>
 											<ul>
 												{this.state.locations.map(function(location, i){
 													return (
