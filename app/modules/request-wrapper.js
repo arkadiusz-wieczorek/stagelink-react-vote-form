@@ -11,7 +11,7 @@ const ReqwestWrapper = new (function() {
 		let url = 'http://localhost:3000/demands'
 		data.inputType = undefined;
 		data.emptyField = undefined;
-		
+
 		reqwest({
 			url: url,
 			method: 'post',
@@ -27,11 +27,10 @@ const ReqwestWrapper = new (function() {
 		autocomplete.place({input: address, types: ['(cities)']}, (err, results) => {
 			if (results !== undefined) {
 				let locations = [];
-
 				for (let i = 0; i < results.length; i++) {
 					locations.push({
 						city: results[i].terms[0].value,
-						country: results[i].terms[1].value,
+						country: (results[i].terms[1] !== undefined) ? results[i].terms[1].value : "",
 						place_id: results[i].place_id
 					})
 				}

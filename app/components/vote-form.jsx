@@ -219,7 +219,10 @@ class VoteForm extends React.Component{
 															onClick={this.selectPlaceById.bind(this, location)}>
 
 															<strong>{location.city}</strong>
-															{", "+location.country}
+															{(location.country !== "")
+																? ", "+location.country
+																: ""
+															}
 
 														</li>
 													)
