@@ -204,7 +204,6 @@ li:hover{
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
 	border-top: 5px solid hsla(0, 0%, 20%, 0.9);
-	border-top: 5px solid #000;
 	bottom: 100%;
 	content: " ";
 	font-size: 0;
@@ -362,6 +361,11 @@ footer span {
 }
 
 @media all and (max-width: 32rem) {
+	.overlay-map {
+		background-image: none;
+		background-color: #FFF;
+	}
+
 	.vote-frame {
 		padding-top: 0;
 		width: auto;

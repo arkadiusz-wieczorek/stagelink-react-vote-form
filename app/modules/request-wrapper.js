@@ -26,6 +26,7 @@ const ReqwestWrapper = new (function() {
 	this.getLocations = (address) => new Promise((resolve, reject) => {
 		autocomplete.place({input: address, types: ['(cities)']}, (err, results) => {
 			if (results !== undefined) {
+				// console.log('results', results);
 				let locations = [];
 				for (let i = 0; i < results.length; i++) {
 					locations.push({
