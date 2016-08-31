@@ -210,17 +210,14 @@ li:hover{
 	left: 50%;
 	left: 0;
 	line-height: 0;
-	margin-left: -5px;
 	margin-left: auto;
 	margin-right: auto;
-	position: absolute;
 	position: absolute;
 	right: 0;
 	width: 0;
 }
 
-.fragment__vote-buttons .buttons-wrapper,
-.fragment__vote-details .selects-wrapper {
+.fragment__vote-buttons .buttons-wrapper{
 	/* justify-content: space-between; */
 	display: flex;
 	flex-flow: row wrap;
@@ -229,36 +226,57 @@ li:hover{
 	width: 13.5rem;
 }
 
-.fragment__vote-details select {
+.fragment__vote-details .selects-container{
+	display: flex;
+	max-width: 13.5rem;
+	margin: 0 auto;
+	justify-content: space-between;
+	flex-flow: row wrap;
+}
+
+.fragment__vote-details select{
 	-moz-appearance: none;
 	-webkit-appearance: none;
 	appearance: none;
-	background: url('../images/arrow.png') 85%/18% no-repeat #f6f6f6;
 	border: 0;
 	border-radius: 0;
-	box-shadow: none;
-	color: #232323;
-	/* display: inline-block; */
-	/* background: #f6f6f6 !important; */
-	/* padding: 0.6rem 3rem 0.6rem 0.6rem !important; */
-	flex-grow: 1;
-	font-family: 'Open Sans';
+	box-shadow: 0;
+	cursor: pointer;
+	width: 5.5rem;
+	padding-left: 1.8rem;
 	font-size: 1.2rem;
 	font-weight: 400;
-	height: 3.5rem;
+	font-family: 'Open Sans';
 	line-height: 3.5rem;
-	max-width: 50%;
-	overflow: visible;
-	padding-left: 1.8rem;
 	text-align: left;
+	height: 3.5rem;
+	background: #F7F7F7;
 }
 
-.fragment__vote-details select:first-child {
-	margin-right: 0.4rem;
+label{
+	flex-grow: 1;
+	max-width: 48%;
+	background: #f7f7f7;
+	font-size: 1.2rem;
+	cursor: pointer;
+	vertical-align: middle;
 }
 
-.fragment__vote-details select:active {
-	background: url('../images/arrow-down.png') 85%/18% no-repeat #f6f6f6;
+label:nth-child(1){
+	margin-right: 0.1rem;
+}
+
+label:nth-child(2){
+	margin-left: 0.1rem;
+}
+
+label:after{
+	content:'▼';
+	display:inline-block;
+	font-family: 'Open Sans';
+	color:#808080;
+	margin-left: -1rem;
+	pointer-events:none;
 }
 
 option {
@@ -270,6 +288,7 @@ option {
 	height: 3.5rem;
 	padding-left: 1.8rem;
 	padding-top: 0.8rem;
+	cursor: pointer;
 }
 
 .fragment__vote-buttons .buttons-wrapper {

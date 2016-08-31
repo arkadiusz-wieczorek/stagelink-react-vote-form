@@ -103,21 +103,28 @@ class DemandSelect extends React.Component{
 
     render () {
         return (
-			<div className="selects-wrapper">
-				<select
-					className="select-input"
-					name="price"
-					ref="price">
-						{this.state.prices}
-				</select>
-				<select
-					className="select-input"
-					name="currency"
-					ref="currency"
-					onChange={this.handleChangeCurrency}>
-						{this.state.currencies}
-				</select>
+			<div className="selects-container">
+
+					<label>
+						<select
+							className="select-input"
+							name="price"
+							ref="price">
+								{this.state.prices}
+						</select>
+					</label>
+
+					<label>
+						<select
+							className="select-input"
+							name="currency"
+							ref="currency"
+							onChange={this.handleChangeCurrency}>
+								{this.state.currencies}
+						</select>
+					</label>
 			</div>
+
         )
     }
 }
