@@ -11,9 +11,10 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "event-emitter": "^0.3.4",
+    "google-places-browser": "^1.0.0",
     "leaflet": "^0.7.7",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
     "react-google-login": "^2.1.2",
     "react-instagram-login": "0.0.3",
     "react-leaflet": "^0.12.1",
