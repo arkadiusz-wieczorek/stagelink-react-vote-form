@@ -204,8 +204,6 @@ class VoteForm extends React.Component{
 
 						<div className="fragment__vote-details">
 							<h2>Please come to</h2>
-
-							<div>
 								{(this.state.emptyField === false)
 									?
 									<div>
@@ -249,7 +247,6 @@ class VoteForm extends React.Component{
 											onInput={this.setNewValue} />
 									</div>
 								}
-							</div>
 
 							<h2>I'd pay up to</h2>
 							<DemandSelect
@@ -297,7 +294,6 @@ class VoteForm extends React.Component{
 							}
 						</div>
 					</div>
-
 				</div>
 			</div>
 		)
