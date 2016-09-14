@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 import VoteForm from './vote-form.jsx';
-import VoteFooter from './vote-footer.jsx';
-import Map from './vote-map.jsx';
+import Footer from './footer.jsx';
+import Map from './map.jsx';
 
 import ee from '../modules/event-emitter.js';
 import urlParams from '../modules/params-handler.js';
@@ -77,11 +77,10 @@ class VoteFrame extends React.Component {
 	                    <div className="vote-box">
 	                        <VoteForm
 								artist={this.state.artist} />
-	                        <VoteFooter />
+							<Footer />
 	                    </div>
                     :
-	                    <Map
-	                        position={[this.state.coords.lat, this.state.coords.lng]}/>
+	                    <Map position={[this.state.coords.lat, this.state.coords.lng]}/>
                 }
             </div>
         )
