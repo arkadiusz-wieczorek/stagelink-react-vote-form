@@ -1,4 +1,5 @@
 import React from 'react';
+
 const VoteHeader = (props) => (
 	<div className="fragment__vote-information">
 		<h1>{props.artist_name}</h1>

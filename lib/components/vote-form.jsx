@@ -10,7 +10,7 @@ import InstagramButton from '../modules/instagram-handler.jsx';
 
 import VoteHeader from './vote-header.jsx';
 
-import DemandSelect from './demand-select.jsx';
+import SelectDemand from './select-demand.jsx';
 
 class VoteForm extends React.Component{
     constructor(props){
@@ -22,8 +22,8 @@ class VoteForm extends React.Component{
             address: '',
 
 			inputValue: '',
-			inputType: 'input',
-			emptyField: false,
+			choiseFromSuggestions: false,
+			emptyInputField: false,
 			selectedLocation: 0,
 			locations: [],
 
@@ -35,14 +35,15 @@ class VoteForm extends React.Component{
             signup_variant: ''
         }
 
-        this.facebookResponse = this.facebookResponse.bind(this)
 		this.googleResponse = this.googleResponse.bind(this)
+        this.facebookResponse = this.facebookResponse.bind(this)
+
 		this.storeStateBeforeRequest = this.storeStateBeforeRequest.bind(this)
-		this.setNewValue = this.setNewValue.bind(this)
-		this.handleEmptyInputField = this.handleEmptyInputField.bind(this)
 		this.loadLocations = this.loadLocations.bind(this)
+		this.setNewInputValue = this.setNewInputValue.bind(this)
 		this.selectPlaceById = this.selectPlaceById.bind(this)
 		this.handleKeyEvents = this.handleKeyEvents.bind(this)
+		this.handleMouseOverSuggestions = this.handleMouseOverSuggestions.bind(this)
 		this.moveCarretToEnd = this.moveCarretToEnd.bind(this)
     }
 
@@ -51,14 +52,12 @@ class VoteForm extends React.Component{
     }
 
     componentDidMount() {
-		let self = this;
         facebookHandler.init();
-		self.googleResponse();
+		this.googleResponse();
     }
 
 	componentDidUpdate(prevProps, prevState) {
-		if (prevState.inputValue !== this.state.inputValue &&
-			this.state.inputType === "input" || this.state.inputType === "") {
+		if (prevState.inputValue !== this.state.inputValue && !this.state.choiseFromSuggestions) {
 			this.loadLocations()
 		}
 	}
@@ -68,7 +67,7 @@ class VoteForm extends React.Component{
 	}
 
 	storeStateBeforeRequest(){
-		let data = this.state
+		let data = this.state;
 		data.demand = this.refs.demand.getValue()
 		localStorage.setItem('stagelink-vote', JSON.stringify(data))
 	}
@@ -122,29 +121,15 @@ class VoteForm extends React.Component{
 			})
 	}
 
-	setNewValue(event){
-		if (event.target.value === "") {
-			this.setState({
-				emptyField: true,
-				inputType: 'input',
-				inputValue: event.target.value,
-				address: event.target.value,
-				selectedLocation: 0
-			})
-		} else {
-			this.setState({
-				emptyField: false,
-				inputType: 'input',
-				inputValue: event.target.value,
-				address: event.target.value,
-				selectedLocation: 0
-			})
-		}
-	}
+	setNewInputValue(event){
+		if (event.target.value === "") this.setState({ emptyInputField: true })
+		else this.setState({ emptyInputField: false })
 
-	handleEmptyInputField(){
 		this.setState({
-			emptyField: true
+			choiseFromSuggestions: false,
+			inputValue: event.target.value,
+			address: event.target.value,
+			selectedLocation: 0
 		})
 	}
 
@@ -153,7 +138,7 @@ class VoteForm extends React.Component{
 			rq.getCoordsById(location.place_id)
 
 			this.setState({
-				inputType: 'click',
+				choiseFromSuggestions: true,
 				inputValue: location.city,
 				address: location.city + ", " + location.country,
 				locations: []
@@ -187,6 +172,14 @@ class VoteForm extends React.Component{
 		}
 	}
 
+	handleMouseOverSuggestions(i){
+		if (this.state.selectedLocation !== i) {
+			this.setState({
+				selectedLocation: i
+			})
+		}
+	}
+
 	moveCarretToEnd(){
 		let a = this.state.inputValue.length;
 		if (this.refs.address.selectionStart !== a || this.refs.address.selectionEnd !== a) {
@@ -204,93 +197,81 @@ class VoteForm extends React.Component{
 
 						<div className="fragment__vote-details">
 							<h2>Please come to</h2>
-								{(this.state.emptyField === false)
-									?
-									<div>
-										<input
-											className="input-field"
-											placeholder="Type in your town"
-											ref="address"
-											type="text"
-											value={this.state.inputValue}
-											onInput={this.setNewValue}
-											onKeyDown={this.handleKeyEvents}
-											onClick={this.moveCarretToEnd}/>
-											<ul>
-												{this.state.locations.map(function(location, i){
-													return (
-														<li
-															key={location.place_id}
-															value={i}
-															className={this.state.selectedLocation === i ? 'active' : ''}
-															onClick={this.selectPlaceById.bind(this, location)}>
+								{(this.state.emptyInputField === false)
+									? 	<div>
+											<input
+												className="input-field"
+												placeholder="Type in your town"
+												ref="address"
+												type="text"
+												value={this.state.inputValue}
+												onInput={this.setNewInputValue}
+												onKeyDown={this.handleKeyEvents}
+												onClick={this.moveCarretToEnd} />
+												<ul>
+													{this.state.locations.map(function(location, i){
+														return (
+															<li
+																key={location.place_id}
+																className={this.state.selectedLocation === i ? 'active' : ''}
+																onClick={this.selectPlaceById.bind(this, location)}
+																onMouseMove={this.handleMouseOverSuggestions.bind(this, i)}>
 
-															<strong>{location.city}</strong>
-															{(location.country !== "")
-																? ", "+location.country
-																: ""
-															}
-
-														</li>
-													)
-												}.bind(this))}
-											</ul>
-									</div>
-									:
-									<div data-tooltip="Where should the show take place?">
-										<input
-											className="input-field input-field__error"
-											placeholder="Type in your town"
-											ref="address"
-											type="text"
-											value={this.state.inputValue}
-											onInput={this.setNewValue} />
-									</div>
+																<strong>{location.city}</strong>
+																{(location.country !== "")
+																	? ", "+location.country
+																	: ""
+																}
+															</li>
+														)
+													}.bind(this))}
+												</ul>
+										</div>
+									:	<div data-tooltip="Where should the show take place?">
+											<input
+												className="input-field input-field__error"
+												placeholder="Type in your town"
+												ref="address"
+												type="text"
+												value={this.state.inputValue}
+												onInput={this.setNewInputValue} />
+										</div>
 								}
 
 							<h2>I'd pay up to</h2>
-							<DemandSelect
-								options={this.props.artist['vote-values']}
-								ref="demand"/>
+							<SelectDemand
+								voteValues={this.props.artist['vote-values']}
+								ref="demand" />
 						</div>
 
 						<div className="fragment__vote-buttons">
-
 							{(this.state.inputValue !== "")
-								?
-								<div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
-									<button
-										onClick={this.facebookResponse}
-										className={classNames('button', 'button__facebook')}>
-										<span className="icon icon-facebook"></span>
-										Request with Facebook
-									</button>
-									<GoogleButton
-										text="Google"/>
-									<InstagramButton
-										text="Instagram"/>
-								</div>
-								:
-								<div className="buttons-wrapper">
-									<button
-										onClick={this.handleEmptyInputField}
-										className={classNames('button', 'button__facebook')}>
-										<span className="icon icon-facebook"></span>
-										Request with Facebook
-									</button>
-									<button
-										onClick={this.handleEmptyInputField}
-										className={classNames('button', 'button__gplus')}>
-										<span className="icon icon-google"></span>
-										Google
-									</button>
-									<button
-										onClick={this.handleEmptyInputField}
-										className={classNames('button', 'button__instagram')}>
-										<span className="icon icon-instagram"></span>
-										Instagram
-									</button>
-								</div>
+								? 	<div className="buttons-wrapper" onClick={this.storeStateBeforeRequest}>
+										<button
+											onClick={this.facebookResponse}
+											className={classNames('button', 'button__facebook')}>
+											<span className="icon icon-facebook"></span>
+											Request with Facebook
+										</button>
+										<GoogleButton
+											text="Google"/>
+										<InstagramButton
+											text="Instagram"/>
+									</div>
+								:	<div className="buttons-wrapper">
+										<button	className={classNames('button', 'button__facebook')}>
+											<span className="icon icon-facebook"></span>
+											Request with Facebook
+										</button>
+										<button	className={classNames('button', 'button__gplus')}>
+											<span className="icon icon-google"></span>
+											Google
+										</button>
+										<button	className={classNames('button', 'button__instagram')}>
+											<span className="icon icon-instagram"></span>
+											Instagram
+										</button>
+									</div>
 							}
 						</div>
 					</div>
