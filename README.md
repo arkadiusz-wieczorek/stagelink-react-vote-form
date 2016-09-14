@@ -7,6 +7,14 @@ npm install browserify watchify -g
 ./build.sh
 ```
 
+## Clear build
+```
+localStorage.removeItem('stagelink-vote');
+```
+
+Removing `stagelink-coords` isn't requried.
+
+
 ## Components
 Below are presented important code parts of vote form.
 
@@ -17,26 +25,6 @@ It's container component for all sub-components.
 #### state
 ##### `voted` property
 Depending on `this.state.voted` is displayed form or map with marker as vote.
-
-`this.state.voted → false`
-
-```
-index.jsx
-→ vote-header.jsx
-→ vote-form.jsx
-	→ input
-	→ demand-select.jsx
-	→ buttons (facebook-handler.js, google-handler.jsx, instagram-handler.jsx)
-→ vote-footer.jsx
-
-```
-
-or `this.state.voted → true`
-
-```
-index.jsx
-→ vote-map.jsx
-```
 
 ##### `artist` property
 This value is based on global variable `artist` in index.html file. The `artist` variable has information about `name`, `id` and `vote-values`.
@@ -92,11 +80,11 @@ In this case this function has 3 responsibilities:
 ### vote-header.jsx
 It's simple stateless component which displays `header` tag with artist name through `this.props`.
 
-### vote-footer.jsx
+### footer.jsx
 As above this component displays `footer` tag.
 
 
-### demand-select.jsx
+### select-demand.jsx
 This component displays `select` tags in form. The values are loading through `this.props`.
 
 ### vote-form.jsx
@@ -105,8 +93,8 @@ This component displays `select` tags in form. The values are loading through `t
 ##### `authResponse` property
 Here is stored the answer from logging services (Facebook, Google, Instagram).
 
-##### `inputType` property
-It's value for checking whether the user has selected place by keyboard `input` or mouse `click`.
+##### `choiseFromSuggestions` property
+It's value for checking whether the user has selected place from suggestions.
 
 ##### `emptyField` property
 If input field has text then in `render` function simple `if else` statement grabs this value and when if is assigned `true` then it displays `input` with `tooltip` "Where should the show take place?" otherwise it displays list with suggestions.
@@ -114,8 +102,7 @@ If input field has text then in `render` function simple `if else` statement gra
 ##### `demand` property
 This object has information about chosen currency and value.
 
-
-
+UPDATE: This property isn't used in form, also `setState` isn't called for this property. After send request to backend information about `demans` is loading from refs, because we don't need this information in lifecycle of form and re-render through this value.
 
 
 #### Important functions
