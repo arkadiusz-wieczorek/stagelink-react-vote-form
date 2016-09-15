@@ -135,7 +135,7 @@ class VoteForm extends React.Component{
 
 	selectPlaceById(location){
 		if (location !== undefined) {
-			rq.getCoordsById(location.place_id)
+			rq.getCoordsAndCountryCodeById(location.place_id)
 
 			this.setState({
 				choiseFromSuggestions: true,
